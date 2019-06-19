@@ -6,53 +6,16 @@
     <description>Recent content in Tags on Journey of Machine Learning</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 02 Oct 2015 21:49:20 +0200</lastBuildDate>
     
 	<atom:link href="https://hustwutao.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Golang</title>
-      <link>https://hustwutao.github.io/tags/golang/</link>
-      <pubDate>Fri, 02 Oct 2015 21:49:20 +0200</pubDate>
+      <title>Vae</title>
+      <link>https://hustwutao.github.io/tags/vae/</link>
+      <pubDate>Mon, 10 Jun 2019 12:10:51 +0200</pubDate>
       
-      <guid>https://hustwutao.github.io/tags/golang/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Hugo</title>
-      <link>https://hustwutao.github.io/tags/hugo/</link>
-      <pubDate>Fri, 02 Oct 2015 21:49:20 +0200</pubDate>
-      
-      <guid>https://hustwutao.github.io/tags/hugo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Markdown</title>
-      <link>https://hustwutao.github.io/tags/markdown/</link>
-      <pubDate>Sat, 20 May 2017 12:10:51 +0200</pubDate>
-      
-      <guid>https://hustwutao.github.io/tags/markdown/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Programming</title>
-      <link>https://hustwutao.github.io/tags/programming/</link>
-      <pubDate>Fri, 02 Oct 2015 21:49:20 +0200</pubDate>
-      
-      <guid>https://hustwutao.github.io/tags/programming/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Theme</title>
-      <link>https://hustwutao.github.io/tags/theme/</link>
-      <pubDate>Fri, 02 Oct 2015 21:49:20 +0200</pubDate>
-      
-      <guid>https://hustwutao.github.io/tags/theme/</guid>
+      <guid>https://hustwutao.github.io/tags/vae/</guid>
       <description></description>
     </item>
     

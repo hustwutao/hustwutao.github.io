@@ -11,29 +11,11 @@
     
     
     <item>
-      <title>Gan</title>
-      <link>https://hustwutao.github.io/categories/gan/</link>
-      <pubDate>Sat, 20 May 2017 11:58:06 +0200</pubDate>
+      <title>Generative Models</title>
+      <link>https://hustwutao.github.io/categories/generative-models/</link>
+      <pubDate>Mon, 10 Jun 2019 12:10:51 +0200</pubDate>
       
-      <guid>https://hustwutao.github.io/categories/gan/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Programming</title>
-      <link>https://hustwutao.github.io/categories/programming/</link>
-      <pubDate>Fri, 02 Oct 2015 21:49:20 +0200</pubDate>
-      
-      <guid>https://hustwutao.github.io/categories/programming/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Vae</title>
-      <link>https://hustwutao.github.io/categories/vae/</link>
-      <pubDate>Sat, 20 May 2017 11:58:06 +0200</pubDate>
-      
-      <guid>https://hustwutao.github.io/categories/vae/</guid>
+      <guid>https://hustwutao.github.io/categories/generative-models/</guid>
       <description></description>
     </item>
     
