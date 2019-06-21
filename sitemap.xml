@@ -3,17 +3,8 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://hustwutao.github.io/2019/06/10/variational-autoencoder/</loc>
-    <lastmod>2019-06-10T12:10:51+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://hustwutao.github.io/about/</loc>
-    <lastmod>2017-05-19T21:49:20+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://hustwutao.github.io/categories/</loc>
+    <lastmod>2019-06-10T12:10:51+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -21,6 +12,11 @@
     <loc>https://hustwutao.github.io/categories/generative-models/</loc>
     <lastmod>2019-06-10T12:10:51+02:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://hustwutao.github.io/2019/06/10/generative-models-as-divergence-minimization/</loc>
+    <lastmod>2019-06-10T12:10:51+02:00</lastmod>
   </url>
   
   <url>
@@ -37,6 +33,7 @@
   
   <url>
     <loc>https://hustwutao.github.io/tags/</loc>
+    <lastmod>2019-06-10T12:10:51+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -44,6 +41,16 @@
     <loc>https://hustwutao.github.io/tags/vae/</loc>
     <lastmod>2019-06-10T12:10:51+02:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://hustwutao.github.io/2019/06/10/variational-autoencoder/</loc>
+    <lastmod>2019-06-10T12:10:51+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hustwutao.github.io/about/</loc>
+    <lastmod>2017-05-19T21:49:20+02:00</lastmod>
   </url>
   
 </urlset>
