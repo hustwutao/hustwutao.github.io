@@ -46,6 +46,34 @@
 
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
 </head>
 <body>
 <div class="container">
@@ -140,7 +168,7 @@
     </div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        2
+        1
         <span>Posts</span>
       </div>
       <div class="article-info-block">
@@ -223,154 +251,6 @@
 <article class="article article-type-post" itemscope="" itemprop="blogPost">
     <div class="article-inner">
         
-        <a href="https://hustwutao.github.io/2019/06/10/generative-models-as-divergence-minimization/" itemprop="url">
-            <img src="https://hustwutao.github.io/banners/divergence.svg" class="article-banner">
-        
-        </a>
-
-        <header class="article-header">
-    <a href="https://hustwutao.github.io/2019/06/10/generative-models-as-divergence-minimization/">
-    <h1 class="article-title" itemprop="name">
-        Generative models as divergence minimization
-    </h1>
-    </a>
-    <div class="article-meta">
-
-        
-        <div class="article-date">
-            <i class="fa fa-calendar"></i>
-            <time datetime="2019-06-10 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-10</time>
-            &middot;
-            0
-            words
-            &middot;
-            0
-            minute read
-        </div>
-        
-        
-            
-            
-            <div class="article-category">
-                <i class="fa fa-folder"></i>
-                
-                
-                <a class="article-category-link" href="https://hustwutao.github.io/categories/generative-models">Generative Models</a>
-                
-                
-            </div>
-            
-        
-
-        
-            
-            
-            <div class="article-category">
-                <i class="fa fa-tags"></i>
-                
-                
-                <a class="article-category-link" href="https://hustwutao.github.io/tags/vae">VAE</a>
-                
-                
-            </div>
-            
-        
-    </div>
-</header>
-
-        <div class="article-entry" itemprop="articleBody">
-            <p>
-                
-            </p>
-            <p class="article-more-link">
-                <a href="https://hustwutao.github.io/2019/06/10/generative-models-as-divergence-minimization/">
-                    Read more
-                </a>
-            </p>
-        </div>
-        <footer class="article-footer">
-    <a data-url="https://hustwutao.github.io/2019/06/10/generative-models-as-divergence-minimization/" data-id="9368b457102ca8f98c31e50078a48fef" class="article-share-link">
-        <i class="fa fa-share"></i>
-        Share
-    </a>
-    
-    <a href="https://hustwutao.github.io/2019/06/10/generative-models-as-divergence-minimization/#disqus_thread" class="article-comment-link">
-        Comments
-    </a>
-    
-
-    <script>
-    (function ($) {
-        
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-    </script>
-</footer>
-
-    </div>
-</article>
-
-<article class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
         <a href="https://hustwutao.github.io/2019/06/10/variational-autoencoder/" itemprop="url">
             <img src="https://hustwutao.github.io/banners/VAE.png" class="article-banner">
         
@@ -389,10 +269,10 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2019-06-10 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-10</time>
             &middot;
-            0
+            1470
             words
             &middot;
-            0
+            7
             minute read
         </div>
         
@@ -428,7 +308,8 @@
 
         <div class="article-entry" itemprop="articleBody">
             <p>
-                
+                Variational Autoencoder (VAE) can be seen as a stochastic version of conventional autoencoder which imposes some constraints on the distribution of latent variables, however, the original VAE was derived from Variational Bayesian method and linked to Autoencoder just because some terms in objective function can be interpreted as an encoder and a decoder.
+Let&rsquo;s first derive VAE from scratch and then we see how to implement it in Tensorflow.
             </p>
             <p class="article-more-link">
                 <a href="https://hustwutao.github.io/2019/06/10/variational-autoencoder/">
@@ -437,7 +318,7 @@
             </p>
         </div>
         <footer class="article-footer">
-    <a data-url="https://hustwutao.github.io/2019/06/10/variational-autoencoder/" data-id="9586504fb31fb5234f8d5c9ffc1b98d8" class="article-share-link">
+    <a data-url="https://hustwutao.github.io/2019/06/10/variational-autoencoder/" data-id="9368b457102ca8f98c31e50078a48fef" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -536,32 +417,6 @@
             
             <li>
                 <div class="item-thumbnail">
-                    <a href="https://hustwutao.github.io/2019/06/10/generative-models-as-divergence-minimization/" class="thumbnail">
-                    
-                        <span style="background-image:url(https://hustwutao.github.io/banners/divergence.svg)" alt="Journey of Machine Learning" class="thumbnail-image"></span>
-                    
-                    </a>
-                </div>
-                <div class="item-inner">
-                    
-                    
-                    <p class="item-category">
-                        
-                        <a class="article-category-link" href="https://hustwutao.github.io/categories/generative-models">
-                        Generative Models
-                        </a>
-                    </p>
-                    
-                    
-                    <p class="item-title"><a href="https://hustwutao.github.io/2019/06/10/generative-models-as-divergence-minimization/" class="title">Generative models as divergence minimization</a></p>
-                    <p class="item-date">
-                        <time datetime="2019-06-10 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-10</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
                     <a href="https://hustwutao.github.io/2019/06/10/variational-autoencoder/" class="thumbnail">
                     
                         <span style="background-image:url(https://hustwutao.github.io/banners/VAE.png)" alt="Journey of Machine Learning" class="thumbnail-image"></span>
@@ -604,7 +459,7 @@
                 <a class="category-list-link" href="https://hustwutao.github.io/categories/generative-models">
                     generative-models
                 </a>
-                <span class="category-list-count">2</span>
+                <span class="category-list-count">1</span>
             </li>
             
         </ul>
@@ -629,7 +484,7 @@
                 <a class="category-list-link" href="https://hustwutao.github.io/tags/vae">
                     vae
                 </a>
-                <span class="category-list-count">2</span>
+                <span class="category-list-count">1</span>
             </li>
             
         </ul>

@@ -46,6 +46,34 @@
 
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
 </head>
 <body>
 <div class="container">
@@ -140,7 +168,7 @@
     </div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        2
+        1
         <span>Posts</span>
       </div>
       <div class="article-info-block">
@@ -232,28 +260,6 @@
     <div class="archive-article-inner">
         <div class="archive-article-thumbnail">
             
-            <a href="https://hustwutao.github.io/2019/06/10/generative-models-as-divergence-minimization/" class="thumbnail">
-                <span style="background-image:url(https://hustwutao.github.io/banners/divergence.svg)" alt="Generative models as divergence minimization" class="thumbnail-image"></span>
-            </a>
-            
-        </div>
-        <header class="archive-article-header">
-            <h1 itemprop="name">
-            <a class="archive-article-title" href="https://hustwutao.github.io/2019/06/10/generative-models-as-divergence-minimization/">Generative models as divergence minimization</a>
-            </h1>
-            <div class="archive-article-date">
-                <i class="fa fa-calendar"></i>
-                <time datetime="2019-06-10 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-10</time>
-            </div>
-        </header>
-    </div>
-</article>
- 
-            
-                <article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <div class="archive-article-thumbnail">
-            
             <a href="https://hustwutao.github.io/2019/06/10/variational-autoencoder/" class="thumbnail">
                 <span style="background-image:url(https://hustwutao.github.io/banners/VAE.png)" alt="Variational Autoencoder" class="thumbnail-image"></span>
             </a>
@@ -291,32 +297,6 @@
     </h3>
     <div class="widget">
         <ul id="recent-post">
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="https://hustwutao.github.io/2019/06/10/generative-models-as-divergence-minimization/" class="thumbnail">
-                    
-                        <span style="background-image:url(https://hustwutao.github.io/banners/divergence.svg)" alt="Generative Models" class="thumbnail-image"></span>
-                    
-                    </a>
-                </div>
-                <div class="item-inner">
-                    
-                    
-                    <p class="item-category">
-                        
-                        <a class="article-category-link" href="https://hustwutao.github.io/categories/generative-models">
-                        Generative Models
-                        </a>
-                    </p>
-                    
-                    
-                    <p class="item-title"><a href="https://hustwutao.github.io/2019/06/10/generative-models-as-divergence-minimization/" class="title">Generative models as divergence minimization</a></p>
-                    <p class="item-date">
-                        <time datetime="2019-06-10 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-10</time>
-                    </p>
-                </div>
-            </li>
             
             <li>
                 <div class="item-thumbnail">
@@ -362,7 +342,7 @@
                 <a class="category-list-link" href="https://hustwutao.github.io/categories/generative-models">
                     generative-models
                 </a>
-                <span class="category-list-count">2</span>
+                <span class="category-list-count">1</span>
             </li>
             
         </ul>
@@ -387,7 +367,7 @@
                 <a class="category-list-link" href="https://hustwutao.github.io/tags/vae">
                     vae
                 </a>
-                <span class="category-list-count">2</span>
+                <span class="category-list-count">1</span>
             </li>
             
         </ul>
