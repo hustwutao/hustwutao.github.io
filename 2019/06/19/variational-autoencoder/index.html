@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Variational Autoencoder &middot; Journey of Machine Learning</title>
+    <meta name="generator" content="Hugo 0.55.6" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Tao Wu">
+    
+      <meta name="description" content="My journey of ML">
+    
+    
+    <link rel="canonical" href="https://hustwutao.github.io/2019/06/19/variational-autoencoder/"/>
+    <link rel="icon" href="https://hustwutao.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="https://hustwutao.github.io/apple-touch-icon.png"/>
+    <link rel="stylesheet" href="https://hustwutao.github.io/css/style.css">
+    <link rel="stylesheet" href="https://hustwutao.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://hustwutao.github.io/css/monokai.css">
+    <link rel="stylesheet" href="https://hustwutao.github.io/fancybox/jquery.fancybox.css">
+    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Variational Autoencoder" />
+<meta property="og:description" content="Variational Autoencoder (VAE) can be seen as a stochastic version of conventional autoencoder which imposes some constraints on the distribution of latent variables, however, the original VAE was derived from Variational Bayesian method and linked to Autoencoder just because some terms in objective function can be interpreted as an encoder and a decoder.
+Let&rsquo;s first derive VAE from scratch and then we see how to implement it in Tensorflow." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hustwutao.github.io/2019/06/19/variational-autoencoder/" />
+<meta property="article:published_time" content="2019-06-19T12:10:51&#43;02:00"/>
+<meta property="article:modified_time" content="2019-06-19T12:10:51&#43;02:00"/>
+
+    
+    
+<meta itemprop="name" content="Variational Autoencoder">
+<meta itemprop="description" content="Variational Autoencoder (VAE) can be seen as a stochastic version of conventional autoencoder which imposes some constraints on the distribution of latent variables, however, the original VAE was derived from Variational Bayesian method and linked to Autoencoder just because some terms in objective function can be interpreted as an encoder and a decoder.
+Let&rsquo;s first derive VAE from scratch and then we see how to implement it in Tensorflow.">
+
+
+<meta itemprop="datePublished" content="2019-06-19T12:10:51&#43;02:00" />
+<meta itemprop="dateModified" content="2019-06-19T12:10:51&#43;02:00" />
+<meta itemprop="wordCount" content="3110">
+
+
+
+<meta itemprop="keywords" content="VAE," />
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Variational Autoencoder"/>
+<meta name="twitter:description" content="Variational Autoencoder (VAE) can be seen as a stochastic version of conventional autoencoder which imposes some constraints on the distribution of latent variables, however, the original VAE was derived from Variational Bayesian method and linked to Autoencoder just because some terms in objective function can be interpreted as an encoder and a decoder.
+Let&rsquo;s first derive VAE from scratch and then we see how to implement it in Tensorflow."/>
+
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+</head>
+<body>
+<div class="container">
+
+
+<div id="container">
+	<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="https://hustwutao.github.io/" id="logo">
+          
+          <i class="logo" style="background-image: url('https://hustwutao.github.io/css/images/DL.png')"></i>
+          
+          <span class="site-title">Journey of Machine Learning</span>
+      </a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="https://hustwutao.github.io/">Home</a>
+          
+          
+
+          
+          <a class="main-nav-link" href="/about/">About</a>
+          
+
+          
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://hustwutao.github.io/"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+              <input type="search" name="q" class="search-form-input" placeholder="">
+              <button type="submit" class="search-form-submit">
+              </button>
+              <input type="hidden" name="sitesearch" value="https://hustwutao.github.io/" />
+         </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="https://hustwutao.github.io/">Home</a></td>
+          
+          
+
+          
+          <td><a class="main-nav-link" href="/about/">About</a></td>
+          
+
+          
+          
+          
+          <td>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <input type="hidden" name="sitesearch" value="https://hustwutao.github.io/" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+   	
+   	<div class="outer">
+   	
+    	<aside id="profile">
+  <div class="inner profile-inner">
+    <div class="base-info profile-block">
+      
+      <img id="avatar" src="https://www.gravatar.com/avatar/15db7cb83a19103d877335c9ef0efcab?s=100&d=identicon"/>
+      
+      <h2 id="name">Tao Wu</h2>
+      <h3 id="title">Ph.D. in Computer Science</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Rolla, MO, 65401, USA</span>
+      
+          <a id="follow" href="https://github.com/mstwutao">
+              Follow
+          </a>
+      
+    </div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        1
+        <span>Posts</span>
+      </div>
+      <div class="article-info-block">
+        
+          1
+        
+        <span>
+            Tags
+        </span>
+      </div>
+    </div>
+    <div class="profile-block social-links">
+      <table>
+        <tr>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <td><a href="https://hustwutao.github.io/index.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+    
+
+    <section id="main">
+    
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+            <img src="https://hustwutao.github.io/banners/VAE.png" class="article-banner">
+        
+
+        <header class="article-header">
+    <a href="https://hustwutao.github.io/2019/06/19/variational-autoencoder/">
+    <h1 class="article-title" itemprop="name">
+        Variational Autoencoder
+    </h1>
+    </a>
+    <div class="article-meta">
+
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2019-06-19 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-19</time>
+            &middot;
+            3110
+            words
+            &middot;
+            15
+            minute read
+        </div>
+        
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="https://hustwutao.github.io/categories/generative-models">Generative Models</a>
+                
+                
+            </div>
+            
+        
+
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="https://hustwutao.github.io/tags/vae">VAE</a>
+                
+                
+            </div>
+            
+        
+    </div>
+</header>
+
+        <div class="article-entry" itemprop="articleBody">
+            
+
+<p>Variational Autoencoder (VAE) can be seen as a stochastic version of conventional autoencoder which imposes some constraints on the distribution of latent variables, however, the original VAE was derived from Variational Bayesian method and linked to Autoencoder just because some terms in objective function can be interpreted as an encoder and a decoder.</p>
+
+<p>Let&rsquo;s first derive VAE from scratch and then we see how to implement it in Tensorflow.</p>
+
+<p>As a kind of generative model, VAE aims to learn the underlying distribution of dataset which is unknown to us and maybe very complex. A common &lsquo;distance&rsquo; measure of two distributions $p(x)$ and $q(x)$ is the Kullback-Leibler (KL) divergence, which is defined to be</p>
+
+<p>$$
+\mathcal { D } _ { \mathrm { KL } } [ p ( x ) || q ( x ) ] = \mathbb { E } _ { p ( x ) } \left[ \log \frac { p ( x ) } { q ( x ) }  \right]
+$$</p>
+
+<p><em>Note: the KL divergence is not symmetrical, we will explore their difference in later blogs</em></p>
+
+<p>So now, a natural way to model the true data distribution is to minimize the KL divergence between the true data distribution $q(x)$ and the VAE model distribution $p_{\theta}(x)$, where $\theta$ is the parameters of the model which we are trying to optimize.</p>
+
+<p>$$
+\begin{align}
+ \mathcal { D } _ { \mathrm { KL } } [ q ( x ) || p _ {\theta} ( x ) ] &amp; = \mathbb { E } _ { q ( x ) } \left[ \log   q ( x )  - \log  p _ {\theta} ( x )  \right] \\                       &amp; = - H \, [ q (x) ] - \mathbb { E } _ { q ( x ) } \left[ \log p _ {\theta} ( x ) \right]
+\end{align}
+$$</p>
+
+<p>Note that $q(x)$ is the underlying and unchanging distribution from which our dataset comes, so the entropy of $q(x)$ is a constant, so</p>
+
+<p>$$
+\min _ { \theta } \mathcal { D } _ { \mathrm { KL } } [ q ( x ) || p _ {\theta} ( x ) ] = \max _ { \theta } \mathbb { E } _ { q ( x ) } \left[ \log p _ {\theta} ( x ) \right]
+$$</p>
+
+<p>See what? <strong>Minimize the KL divergence of the data distribution and model distribution is equivalent to maximum likelihood method.</strong></p>
+
+<p>VAE is a latent variable generative model which learns the distribution of data space $x \in \mathcal { X }$ from a latent space $z \in \mathcal { Z }$, we can define a prior of latent space $p(z)$, which is usually a standard normal distribution, then we can model the data distribution with a complex conditional distribution $p _ { \theta } ( x | z )$, so the model data likelihood can be computed as</p>
+
+<p>$$p _ { \theta } ( x ) = \int _ { z } p _ { \theta } ( x | z ) p ( z ) \mathrm { d } z$$</p>
+
+<p>However, direct maximization of the likelihood is intractable because the intergration. VAE instead optimizes a lower bound of $p _ { \theta } ( x )$, we can derive it using Jenson&rsquo;s Inequality:</p>
+
+<p>If $f$ is a convex function and $X$ is a random variable, then</p>
+
+<p>$$
+E f ( X ) \geq f ( E X )
+$$</p>
+
+<p>the equality holds only when $X = E X$, i.e,</p>
+
+<p>In our case,</p>
+
+<p>$$
+\begin{align}
+ \log p _ {\theta} ( x ) &amp; = \log \int _ { z } p _ { \theta } ( x , z ) \mathrm { d } z  \\  &amp; = \log \int _ { z } q _ { \phi } ( z | x )  [ \frac{p _ { \theta } ( x , z )}{q _ { \phi } ( z | x )}] \mathrm { d } z \\ &amp; = \log \mathbb { E } _ { q _ { \phi } ( z | x) } [ \frac{p _ { \theta } ( x , z )}{q _ { \phi } ( z | x )}] \\ &amp; \geq \mathbb { E } _ { q _ { \phi } ( z | x) } \log [ \frac{p _ { \theta } ( x , z )}{q _ { \phi } ( z | x )}]
+\end{align}
+$$</p>
+
+<p>The last line of the derivation is called the <strong>Evidence Lower BOund (ELBO)</strong>, which is used frequently in Variational Inference. It seems confusing what is $q _ { \phi } ( z | x)$? Actually it is an approximate distribution of true posterior $p _ {\theta} ( z | x)$ of latent variable $z$ given datapoint $x$. Let&rsquo;s see where it comes from.</p>
+
+<p>Maybe you have heard of VAE is a generative model, actually it is an instance of Variational Inference family, it is used to perform inference of the data in the first place. Given a raw datapoint $x$, how to learn its representations $z$ like shape, size, category, etc. The posterior of latent variables $p _ { \theta } ( z  | x  ) = p _ { \theta  } ( x  |  z  ) p ( z  ) / p _ { \theta } ( x )$ is also intractable because $p _ { \theta } ( x )$ is intractable as we have discussed. VAE introduced a recognition model $q _ { \phi } (z|x)$ to approximate the true postrior $p _ { \theta } ( z | x )$. Similarly, we aims to minimize the KL divergence between them:</p>
+
+<p>$$
+\begin{align}
+ \mathcal { D } _ { \mathrm { KL } } [ q _ { \phi } ( z | x ) || p _ {\theta} ( z | x ) ] &amp; = \mathbb { E } _ { q _ { \phi } ( z | x ) } \left[ \log   q _ { \phi } ( z | x )  - \log  p _ {\theta} ( z | x ) \right] \\                       &amp; = \mathbb { E } _ { q _ { \phi } ( z | x ) } \left[ \log   q _ { \phi } ( z | x )  - \log  p _ {\theta} ( x | z ) - \log  p ( z ) \right] + \log p _ { \theta } ( x )  \\                                                                                        &amp; = - \mathrm { ELBO } + \log p _ { \theta } ( x )
+\end{align}
+$$</p>
+
+<p>$\log p _ { \theta } (x)$ out of expectation because it does not depend on $z$, rearranging thte equation we obtain</p>
+
+<p>$$
+ \mathrm { ELBO } = \log p _ { \theta } (x) - \mathcal { D } _ { \mathrm { KL } } [ q _ { \phi } ( z | x ) || p _ {\theta} ( z | x ) ]
+$$</p>
+
+<p>Surprise! We get the same objective, maximize the ELBO is equavalent to minimize the KL divergence between $q _ { \phi } ( z | x )$ and $p _ {\theta} ( z | x )$ and at the same time maximize $\log p _ { \theta } (x)$.</p>
+
+<p>So, all the remaining is to maxmize the ELBO, which is tractable under some weak assumptions, let&rsquo;s see how to deal with it.</p>
+
+<p>$$
+\begin{align}
+ \mathrm { ELBO } &amp; = \mathbb { E } _ { q _ { \phi } ( z | x ) } \left[ \log  p _ {\theta} ( x | z ) + \log  p ( z ) - \log q _ { \phi } ( z | x ) \right] \\     &amp; = \mathbb { E } _ { q _ { \phi } ( z | x ) } \left[ \log  p _ {\theta} ( x | z ) \right] - \mathcal { D } _ { \mathrm { KL } } [ q _ { \phi } ( z | x ) || p ( z ) ]
+\end{align}
+$$</p>
+
+<p>The first term on RHS is actually the reconstruction error, which is MSE for real value data or cross-entropy for binary value data. The second term is the KL divergence of approximate posterior and prior of latent variables $z$, which can be computed analytically. From the objective function we can see two things:</p>
+
+<ol>
+<li><p>What is  $q _ { \phi } ( z | x )$, given $x$, compute the distribution of $z$; what is $p _ {\theta} ( x | z )$, given $z$, compute the distribution of $x$, if both are implemented by neural network, then they are the encoder and decoder of an Autoencoder, respectively. Now, get the name?</p></li>
+
+<li><p>Why VAE can generate new data while conventional Autoencoders fail: The first term in the objective is the same as convetional Autoencoder if implemented deterministically, the secret is the second term, VAE forces the mapping from data to latent variables to be as close as a prior, so any time we sample a latent variable from the prior, the decoder knows what to generate, while conventional Autoencoder distribute the latent varibles randomly, there are many gaps between them, if we sample a latent variable from the gap and feed to decoder, the decoder has no idea of it.</p></li>
+</ol>
+
+<p>Before we implemented VAE, there are still several thing to do.</p>
+
+<p>Firstly we have a glance of how to compute the $\mathcal { D } _ { \mathrm { KL } } [ q _ { \phi } ( z | x ) || p ( z ) ]$ term. we assume the prior of $z$ is standard Gaussian, $p ( z ) = \mathcal { N } ( 0 , \mathbf { I } )$, this is suitable when implemented VAE by neural networks, because whatever the true prior is, the decoder network can transform the standard Gaussian to it at some layer. So our approximate posterior $q _ { \phi } ( z | x )$ will also take a Guassian distribution form $ \mathcal { N } \left( z ; \boldsymbol { \mu } , \boldsymbol { \sigma } ^ { 2 } \right) $, and the parameters $\boldsymbol { \mu }$ and $\boldsymbol { \sigma }$ is computed by encoder. We compute $\mathcal { D } _ { \mathrm { KL } } [ q _ { \phi } ( z | x ) || p ( z ) ]$ using just simple calculus:</p>
+
+<p>$$
+\begin{align}
+ \mathcal { D } _ { \mathrm { KL } } [ q _ { \phi } ( z | x ) || p ( z ) ] &amp; = \mathbb { E } _ { q _ { \phi } ( z | x ) } \left[ \log q _ { \phi } ( z | x ) -  \log  p ( z ) \right] \\  &amp; = \int \mathcal { N } \left( z ; \boldsymbol { \mu } , \boldsymbol { \sigma } ^ { 2 } \right) [\log \mathcal { N } \left( z ; \boldsymbol { \mu } , \boldsymbol { \sigma } ^ { 2 } \right) - \log \mathcal { N } ( z ; \mathbf { 0 } , \mathbf { I } )] d \mathbf { z }  \\  &amp; = \frac { 1 } { 2 } \sum _ { j = 1 } ^ { J } \left( - \log \left( \left( \sigma _ { j } \right) ^ { 2 } \right) + \left( \mu _ { j } \right) ^ { 2 } + \left( \sigma _ { j } \right) ^ { 2 } - 1 \right)
+\end{align}
+$$</p>
+
+<p>where J id the dimension of vectors $z$, $\mu _ { j } $ and $\sigma _ { j } $ denote the $j$-th element of mean and variance of $z$, respectively.</p>
+
+<p>We can see the ELBO contains encoder parameters $\phi$ and decoder parameters $\theta$. The gradient with respect to $\theta$ is easy to compute:</p>
+
+<p>$$
+\begin{align}
+\nabla _ { \theta } \mathrm {ELBO}  &amp; =  \nabla _ { \theta } \mathbb { E } _ { q _ {\phi} (z | x)}  \log p _ { \theta } ( x | z) \\   &amp; =  \mathbb { E } _ { q _ {\phi} (z | x)} [ \nabla _ { \theta }  \log p _ { \theta } ( x | z) ]  \\  &amp; \simeq  \frac { 1 } { L } \sum _ { l = 1 } ^ { L } [ \nabla _ { \theta }  \log p _ { \theta } ( x | z ^ { ( l ) }) ]
+\end{align}
+$$</p>
+
+<p>the last line comes from Monte Carlo estimation, where $ z  ^ { ( l ) } \sim q _ { \phi } \left( z | x \right)$</p>
+
+<p>However, the gradient with respect to $\phi$ need specical handling because common gradient estimator like score function estimator exhibits exhibits very high variance thus impractical.</p>
+
+<p>$$
+\begin{align}
+\nabla _ { \phi } \mathbb { E } _ { q _ { \phi } ( z ) } [ f ( z ) ]  &amp; = \mathbb { E } _ { q _ { \phi } ( z  ) } \left[ f ( z ) \nabla _ { \phi } \log q _ { \phi } ( z ) \right]  \\     &amp; \simeq \frac { 1 } { L } \sum _ { l = 1 } ^ { L } [ f ( z ) \nabla _ { \phi } \log q _ { \phi } \left( z ^ { ( l ) } \right) ]
+\end{align}
+$$</p>
+
+<p>VAE uses a &lsquo;<strong>reparameterization trick</strong>&rsquo; to derive an unbiased gradient estimator. Instead of sampling $ z \sim q _ { \phi } \left( z | x \right)$ directly, it reparameterize the random variable $\widetilde { z } \sim q _ { \phi } ( z | x )$ using a differentiable transformation $g _ { \phi } (  \epsilon , x )$ with an auxiliary noise variable $\epsilon$.</p>
+
+<p>$$
+\widetilde {  z } = g _ { \phi } ( \epsilon , x ) \quad \text { with } \quad \epsilon  \sim p ( \epsilon  )
+$$</p>
+
+<p>In the univariate Gaussian case, $z \sim \mathcal { N } \left( \mu , \sigma ^ { 2 } \right)$, we can sample $\epsilon \sim \mathcal { N } ( 0,1 )$ and then use the transformation $z = \mu + \sigma \epsilon$.</p>
+
+<p>In this way, we can compute the gradient with respect to $\phi$</p>
+
+<p>$$
+\begin{align}
+\nabla _ { \phi } \mathrm {ELBO}  &amp; =  \nabla _ { \phi }  \mathbb { E } _ { q _ { \phi } ( z | x ) } \left[ \log  p _ {\theta} ( x | z ) \right] - \mathcal { D } _ { \mathrm { KL } } [ q _ { \phi } ( z | x ) || p ( z ) ]   \\   &amp; =  \frac { 1 } { L } \sum _ { l = 1 } ^ { L } \left( \log p _ { \boldsymbol { \theta } } \left( x |  z  ^ {  (l)  } \right) \right) - D _ { K L } \left( q _ { \phi } \left( z  | x \right) || p ( z ) \right)
+\end{align}
+$$</p>
+
+<p>where $ z  ^ {  (l)  } \sim g _ { \phi } \left( x , \epsilon ^ { ( l ) } \right) = \mu  +  \sigma \odot  \epsilon  ^ { ( l ) } \text { where }  \epsilon  ^ { ( l ) } \sim \mathcal { N } ( \mathbf { 0 } , \mathbf { I } ) $</p>
+
+<p><em>There are several important estimators in machine learning area, we will explore that in later blog.</em></p>
+
+<p>All right, everything is done, the following codes snippets will help to understand the theory discussed above.</p>
+
+<p>First implement encoder network, taking data $x$ as input, output is the mean and standard deviation of $ q _ {\phi} (z | x)$</p>
+
+<pre><code class="language-python">def encoder(self, x, is_training=True, reuse=False):
+    with tf.variable_scope('encoder', reuse=reuse):
+        # 1st convolutional layer
+        conv1 = tf.layers.conv2d(inputs=x, filters=64, kernel_size=[4, 4], strides=(2, 2), padding='same')
+        lr_conv1 = tf.nn.leaky_relu(conv1)
+        #2nd convolutional layer
+        conv2 = tf.layers.conv2d(inputs=lr_conv1, filters=128, kernel_size=[4, 4], strides=(2, 2), padding='same')
+        lr_conv2 = tf.nn.leaky_relu(tf.layers.batch_normalization(conv2, training = is_training))
+        # flatten the convolutional layer
+        flat = tf.layers.flatten(lr_conv2)
+        #flat = tf.reshape(lr_conv2, [self.batch_size, -1])
+        # 1st fully-connected layer
+        fc1 = tf.layers.dense(flat, units=1024)
+        lr_fc1 = tf.nn.leaky_relu(tf.layers.batch_normalization(fc1, training = is_training))
+        # output layer
+        out = tf.layers.dense(lr_fc1, units=2*self.z_dim)
+        # The mean parameter is unconstrained
+        mean = out[:, :self.z_dim]
+        # The standard deviation must be positive. Parametrize with a softplus and
+        # add a small epsilon for numerical stability
+        stddev = 1e-6 + tf.nn.softplus(out[:, self.z_dim:])
+        return mean, stddev
+
+</code></pre>
+
+<p>Then implement the decoder network, taking latent variables $z$ as input, output the Bernoulli parameter.</p>
+
+<pre><code class="language-python">def decoder(self, z, is_training=True, reuse=False):
+    with tf.variable_scope('decoder', reuse=reuse):
+        # 1st fully-connected layer
+        fc1 = tf.layers.dense(z, units=1024)
+        r_fc1 = tf.nn.relu(tf.layers.batch_normalization(fc1, training=is_training))
+        # 2nd fully-connected layer
+        fc2 = tf.layers.dense(r_fc1, units=8 * 8 * 128)
+        r_fc2 = tf.nn.relu(tf.layers.batch_normalization(fc2, training=is_training))
+        # reshape the fully-connected layer
+        deflat = tf.reshape(r_fc2, [-1, 8, 8, 128])
+        # 1st deconvolutional layer
+        deconv1 = tf.layers.conv2d_transpose(inputs=deflat, filters=64, kernel_size=[4, 4], strides=(2, 2), padding='same')
+        r_deconv1 = tf.nn.relu(tf.layers.batch_normalization(deconv1, training=is_training))
+        # output layer
+        deconv_out = tf.layers.conv2d_transpose(inputs=r_deconv1, filters=1, kernel_size=[4, 4], strides=(2, 2), padding='same')
+        out = tf.nn.sigmoid(deconv_out)
+        return out
+
+</code></pre>
+
+<p>We can see how reparameteration trick works and how to implement the objective.</p>
+
+<pre><code class="language-python">def build_model(self):
+    # placeholder
+    self.input_x = tf.placeholder(dtype = tf.float32, shape = [None] + self.image_dim, name = 'input_x')
+    self.input_z = tf.placeholder(dtype = tf.float32, shape = [None, self.z_dim], name = 'input_z')
+    # encoding 
+    mu, sigma = self.encoder(self.input_x, is_training = True, reuse = False)
+    # reparameterize
+    z = mu + sigma * tf.random_normal(tf.shape(mu), 0, 1, dtype = tf.float32)
+    # decoding 
+    outputs = self.decoder(z, is_training = True, reuse = False)
+    self.outputs = tf.clip_by_value(outputs, 1e-8, 1 - 1e-8)
+    # loss 
+    self.nll = -tf.reduce_mean(tf.reduce_sum(self.input_x * tf.log(self.outputs) 
+        + (1 - self.input_x) * tf.log(1 - self.outputs), [1, 2]))
+    self.KL_div = tf.reduce_mean(0.5 * tf.reduce_sum(tf.square(mu) + tf.square(sigma) 
+        - tf.log(1e-8 + tf.square(sigma)) - 1, [1]))
+    ELBO = -(self.nll + self.KL_div)
+    self.loss = -ELBO
+    # optimizer
+    t_vars = tf.trainable_variables()
+    with tf.control_dependencies(tf.get_collection(tf.GraphKeys.UPDATE_OPS)):
+        self.optim = tf.train.AdamOptimizer(self.learning_rate).minimize(self.loss, var_list = t_vars)
+
+</code></pre>
+
+<p>The full codes can be seen at <a href="https://git.mst.edu/acil-group/tf_vae_collection/blob/master/models/VAE.py">https://git.mst.edu/acil-group/tf_vae_collection/blob/master/models/VAE.py</a></p>
+
+<h2 id="reference">Reference</h2>
+
+<ol>
+<li><p><a href="https://arxiv.org/abs/1312.6114">Kingma, Diederik P., and Max Welling. &ldquo;Auto-encoding variational bayes.&rdquo; arXiv preprint arXiv:1312.6114 (2013).</a></p></li>
+
+<li><p><a href="https://arxiv.org/abs/1606.05908">Doersch, Carl. &ldquo;Tutorial on variational autoencoders.&rdquo; arXiv preprint arXiv:1606.05908 (2016).</a></p></li>
+</ol>
+
+        </div>
+        <footer class="article-footer">
+    <a data-url="https://hustwutao.github.io/2019/06/19/variational-autoencoder/" data-id="9368b457102ca8f98c31e50078a48fef" class="article-share-link">
+        <i class="fa fa-share"></i>
+        Share
+    </a>
+    
+    <a href="https://hustwutao.github.io/2019/06/19/variational-autoencoder/#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+    </script>
+</footer>
+
+    </div>
+
+    
+
+</article>
+
+
+<section id="comments">
+    <div id="disqus_thread">
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tao13" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+</section>
+
+
+    </section>
+
+   	
+    	<aside id="sidebar">
+    
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Recents
+    </h3>
+    <div class="widget">
+        <ul id="recent-post">
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="https://hustwutao.github.io/2019/06/19/variational-autoencoder/" class="thumbnail">
+                    
+                        <span style="background-image:url(https://hustwutao.github.io/banners/VAE.png)" alt="Variational Autoencoder" class="thumbnail-image"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="https://hustwutao.github.io/categories/generative-models">
+                        Generative Models
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="https://hustwutao.github.io/2019/06/19/variational-autoencoder/" class="title">Variational Autoencoder</a></p>
+                    <p class="item-date">
+                        <time datetime="2019-06-19 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-19</time>
+                    </p>
+                </div>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://hustwutao.github.io/categories/generative-models">
+                    generative-models
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tags
+    </h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://hustwutao.github.io/tags/vae">
+                    vae
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+    
+	</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019
+      Tao Wu. Powered by <a href="//gohugo.io">Hugo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://hustwutao.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="https://hustwutao.github.io/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+</body>
+</html>

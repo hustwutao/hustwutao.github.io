@@ -6,17 +6,17 @@
     <description>Recent content in Generative Models on Journey of Machine Learning</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 10 Jun 2019 12:10:51 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 19 Jun 2019 12:10:51 +0200</lastBuildDate>
     
 	<atom:link href="https://hustwutao.github.io/categories/generative-models/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Variational Autoencoder</title>
-      <link>https://hustwutao.github.io/2019/06/10/variational-autoencoder/</link>
-      <pubDate>Mon, 10 Jun 2019 12:10:51 +0200</pubDate>
+      <link>https://hustwutao.github.io/2019/06/19/variational-autoencoder/</link>
+      <pubDate>Wed, 19 Jun 2019 12:10:51 +0200</pubDate>
       
-      <guid>https://hustwutao.github.io/2019/06/10/variational-autoencoder/</guid>
+      <guid>https://hustwutao.github.io/2019/06/19/variational-autoencoder/</guid>
       <description>Variational Autoencoder (VAE) can be seen as a stochastic version of conventional autoencoder which imposes some constraints on the distribution of latent variables, however, the original VAE was derived from Variational Bayesian method and linked to Autoencoder just because some terms in objective function can be interpreted as an encoder and a decoder.
 Let&amp;rsquo;s first derive VAE from scratch and then we see how to implement it in Tensorflow.</description>
     </item>
