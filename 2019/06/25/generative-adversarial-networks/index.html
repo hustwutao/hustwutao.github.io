@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Generative Adversarial Networks &middot; Journey of Machine Learning</title>
+    <meta name="generator" content="Hugo 0.55.6" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Tao Wu">
+    
+      <meta name="description" content="My journey of ML">
+    
+    
+    <link rel="canonical" href="https://hustwutao.github.io/2019/06/25/generative-adversarial-networks/"/>
+    <link rel="icon" href="https://hustwutao.github.io/favicon.ico">
+    <link rel="apple-touch-icon" href="https://hustwutao.github.io/apple-touch-icon.png"/>
+    <link rel="stylesheet" href="https://hustwutao.github.io/css/style.css">
+    <link rel="stylesheet" href="https://hustwutao.github.io/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://hustwutao.github.io/css/monokai.css">
+    <link rel="stylesheet" href="https://hustwutao.github.io/fancybox/jquery.fancybox.css">
+    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Generative Adversarial Networks" />
+<meta property="og:description" content="Generative Adversarial Networks(GAN) [1] has become one of the most powerful techniques in machine learning since its emergence in 2014. The interesting idea of training methods and the flexible design of the objective function make GAN have numerous variants, and these variants even consist of a GAN zoo.
+Let&rsquo;s first interpret GAN from perspectives and then see how to implement GAN in Tensorflow:
+Game Theory GAN consists of two models: a generative model $G$ that tries to generate realistic samples, and a discriminative model $D$ that tries to classify data from both $G$ and dataset." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hustwutao.github.io/2019/06/25/generative-adversarial-networks/" />
+<meta property="article:published_time" content="2019-06-25T12:10:51&#43;02:00"/>
+<meta property="article:modified_time" content="2019-06-25T12:10:51&#43;02:00"/>
+
+    
+    
+<meta itemprop="name" content="Generative Adversarial Networks">
+<meta itemprop="description" content="Generative Adversarial Networks(GAN) [1] has become one of the most powerful techniques in machine learning since its emergence in 2014. The interesting idea of training methods and the flexible design of the objective function make GAN have numerous variants, and these variants even consist of a GAN zoo.
+Let&rsquo;s first interpret GAN from perspectives and then see how to implement GAN in Tensorflow:
+Game Theory GAN consists of two models: a generative model $G$ that tries to generate realistic samples, and a discriminative model $D$ that tries to classify data from both $G$ and dataset.">
+
+
+<meta itemprop="datePublished" content="2019-06-25T12:10:51&#43;02:00" />
+<meta itemprop="dateModified" content="2019-06-25T12:10:51&#43;02:00" />
+<meta itemprop="wordCount" content="1919">
+
+
+
+<meta itemprop="keywords" content="GAN," />
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Generative Adversarial Networks"/>
+<meta name="twitter:description" content="Generative Adversarial Networks(GAN) [1] has become one of the most powerful techniques in machine learning since its emergence in 2014. The interesting idea of training methods and the flexible design of the objective function make GAN have numerous variants, and these variants even consist of a GAN zoo.
+Let&rsquo;s first interpret GAN from perspectives and then see how to implement GAN in Tensorflow:
+Game Theory GAN consists of two models: a generative model $G$ that tries to generate realistic samples, and a discriminative model $D$ that tries to classify data from both $G$ and dataset."/>
+
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+</head>
+<body>
+<div class="container">
+
+
+<div id="container">
+	<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="https://hustwutao.github.io/" id="logo">
+          
+          <i class="logo" style="background-image: url('https://hustwutao.github.io/css/images/DL.png')"></i>
+          
+          <span class="site-title">Journey of Machine Learning</span>
+      </a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="https://hustwutao.github.io/">Home</a>
+          
+          
+
+          
+          <a class="main-nav-link" href="/about/">About</a>
+          
+
+          
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://hustwutao.github.io/"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+              <input type="search" name="q" class="search-form-input" placeholder="">
+              <button type="submit" class="search-form-submit">
+              </button>
+              <input type="hidden" name="sitesearch" value="https://hustwutao.github.io/" />
+         </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="https://hustwutao.github.io/">Home</a></td>
+          
+          
+
+          
+          <td><a class="main-nav-link" href="/about/">About</a></td>
+          
+
+          
+          
+          
+          <td>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <input type="hidden" name="sitesearch" value="https://hustwutao.github.io/" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+   	
+   	<div class="outer">
+   	
+    	<aside id="profile">
+  <div class="inner profile-inner">
+    <div class="base-info profile-block">
+      
+      <img id="avatar" src="https://www.gravatar.com/avatar/15db7cb83a19103d877335c9ef0efcab?s=100&d=identicon"/>
+      
+      <h2 id="name">Tao Wu</h2>
+      <h3 id="title">Ph.D. in Computer Science</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Rolla, MO, 65401, USA</span>
+      
+          <a id="follow" href="https://github.com/mstwutao">
+              Follow
+          </a>
+      
+    </div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        3
+        <span>Posts</span>
+      </div>
+      <div class="article-info-block">
+        
+          2
+        
+        <span>
+            Tags
+        </span>
+      </div>
+    </div>
+    <div class="profile-block social-links">
+      <table>
+        <tr>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <td><a href="https://hustwutao.github.io/index.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+    
+
+    <section id="main">
+    
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+            <img src="https://hustwutao.github.io/banners/GAN.png" class="article-banner">
+        
+
+        <header class="article-header">
+    <a href="https://hustwutao.github.io/2019/06/25/generative-adversarial-networks/">
+    <h1 class="article-title" itemprop="name">
+        Generative Adversarial Networks
+    </h1>
+    </a>
+    <div class="article-meta">
+
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2019-06-25 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-25</time>
+            &middot;
+            1919
+            words
+            &middot;
+            10
+            minute read
+        </div>
+        
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="https://hustwutao.github.io/categories/generative-models">Generative Models</a>
+                
+                
+            </div>
+            
+        
+
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="https://hustwutao.github.io/tags/gan">GAN</a>
+                
+                
+            </div>
+            
+        
+    </div>
+</header>
+
+        <div class="article-entry" itemprop="articleBody">
+            
+
+<p>Generative Adversarial Networks(GAN) [1] has become one of the most powerful techniques in machine learning since its emergence in 2014. The interesting idea of training methods and the flexible design of the objective function make GAN have numerous variants, and these variants even consist of a <a href="https://deephunt.in/the-gan-zoo-79597dc8c347">GAN zoo</a>.</p>
+
+<p>Let&rsquo;s first interpret GAN from perspectives and then see how to implement GAN in Tensorflow:</p>
+
+<h2 id="game-theory">Game Theory</h2>
+
+<p>GAN consists of two models: a generative model $G$ that tries to generate realistic samples, and a discriminative model $D$ that tries to classify data from both $G$ and dataset. The training procedure for $G$ is to maximize the probability of $D$ making a mistake, and $D$ is to maximize the probability of correctly classify all samples it receives. This framework corresponds to a minimax two-player game, the generative model can be thought of as analogous to a team of counterfeiters, trying to produce fake currency and use it without detection, while the discriminative model is analogous to the police, trying to detect the counterfeit currency. Competition in this game drives both teams to improve their methods until the counterfeits are indistiguishable from the genuine articles.</p>
+
+<p>Let&rsquo;s formulate GAN in mathematics now. Both $G : Z \rightarrow X$ and $D : X \rightarrow [0, 1]$ are represented by neural networks, like other common generative models, $G$ takes vectors of noise $z \sim p(z)$ as input, the output $G(z)$ are the fake samples with the same size as data from dataset, $D$ recieves samples from both dataset and $G$, and it outputs the probability of the samples it receives are whether real or fake.</p>
+
+<p>Hence, the objective of $D$ is:</p>
+
+<p>$$
+\begin{align}
+V(D) = \max \, \mathbb { E } _ { \boldsymbol { x } \sim p _ { \text { data } } ( \boldsymbol { x } ) } [ \log D ( \boldsymbol { x } ) ] + \mathbb { E } _ { \boldsymbol { z } \sim p ( \boldsymbol { z } ) } [ \log ( 1 - D ( G ( \boldsymbol { z } ) ) ) ]
+\end{align}
+$$</p>
+
+<p>The objective of $G$ is:</p>
+
+<p>$$
+\begin{align}
+V(G) &amp; = \max \, \mathbb { E } _ { \boldsymbol { z } \sim p ( \boldsymbol { z } ) } [ \log (D ( G ( \boldsymbol { z } ) ) ) ] \\ &amp; = \min \, \mathbb { E } _ { \boldsymbol { z } \sim p ( \boldsymbol { z } ) } [ \log ( 1 - D ( G ( \boldsymbol { z } ) ) ) ] \\ &amp; = \min \, \mathbb { E } _ { \boldsymbol { x } \sim p _ { \text { data } } ( \boldsymbol { x } ) } [ \log D ( \boldsymbol { x } ) ] + \mathbb { E } _ { \boldsymbol { z } \sim p ( \boldsymbol { z } ) } [ \log ( 1 - D ( G ( \boldsymbol { z } ) ) ) ]
+\end{align}
+$$</p>
+
+<p>Equation (4) holds because $\mathbb { E } _ { \boldsymbol { x } \sim p _ { \text { data } } ( \boldsymbol { x } ) } [ \log D ( \boldsymbol { x } ) ]$ does not depend on $G$, so we can write the objective of GAN as:</p>
+
+<p>$$
+\begin{align}
+\min _ { G } \max _ { D } V ( D , G ) =  \mathbb { E } _ { \boldsymbol { x } \sim p _ { \text { data } } ( \boldsymbol { x } ) } [ \log D ( \boldsymbol { x } ) ] + \mathbb { E } _ { \boldsymbol { z } \sim p ( \boldsymbol { z } ) } [ \log ( 1 - D ( G ( \boldsymbol { z } ) ) ) ]
+\end{align}
+$$</p>
+
+<h2 id="divergence-minimization">Divergence Minimization</h2>
+
+<p>As a generative model, $G$ tries to capture the true data distribution, hence it seeks to minimize a kind of divergence between the model distribution $p _ { g }$ and data distribution $p _ { \mathrm { data } }$. But how can $G$ achieve it?</p>
+
+<p>The training process of GAN is to train $G$ and $D$ in turn, when training $G$ we keep $D$ fixed and vice versa, before the training converges, what is the optimal $D$ for a fixed $G$?</p>
+
+<p>$$
+\begin{align}
+\max _ { D } V ( D , G ) &amp; = \max \mathbb { E } _ { \boldsymbol { x } \sim p _ { \text { data } } ( \boldsymbol { x } ) } [ \log D ( \boldsymbol { x } ) ] + \mathbb { E } _ { \boldsymbol { z } \sim p ( \boldsymbol { z } ) } [ \log ( 1 - D ( G ( \boldsymbol { z } ) ) ) ] \\ &amp; = \max \int _ { \boldsymbol { x } } p _ { \text { data } } ( \boldsymbol { x } ) \log ( D ( \boldsymbol { x } ) ) d x + \int _ { \boldsymbol { z } } p  ( \boldsymbol { z } ) \log ( 1 - D ( g ( \boldsymbol { z } ) ) ) d z \\ &amp; = \max \int _ { \boldsymbol { x } } p _ { \text { data } } ( \boldsymbol { x } ) \log ( D ( \boldsymbol { x } ) ) + p _ { g } ( \boldsymbol { x } ) \log ( 1 - D ( \boldsymbol { x } ) ) d x
+\end{align}
+$$</p>
+
+<p>Using simple calculus, we know function $ a \log ( y ) + b \log ( 1 - y )$ achieves its maximum in $[0, 1]$ at $\frac { a } { a + b }$, hence the optimal $D$ is</p>
+
+<p>$$
+\begin{align}
+D  ^ { * } ( \boldsymbol { x } ) = \frac { p _ { \text {data} } ( \boldsymbol { x } ) } { p _ { \text {data} } ( \boldsymbol { x } ) + p _ { g } ( \boldsymbol { x } ) }
+\end{align}
+$$</p>
+
+<p>If at every step, we train $D$ to the optimum, then what will the objective of $G$ like?</p>
+
+<p>$$
+\begin{align}
+\min _ { G } V ( D , G ) &amp; = \min \mathbb { E } _ { \boldsymbol { x } \sim p _ { \text { data } } ( \boldsymbol { x } ) } \left[ \log D ^ { * } ( \boldsymbol { x } ) \right] + \mathbb { E } _ { \boldsymbol { z } \sim p (z)} \left[ \log \left( 1 - D  ^ { * } ( G ( \boldsymbol { z } ) ) \right) \right] \\ &amp; = \min \mathbb { E } _ { \boldsymbol { x } \sim p _ { \text { data } } ( \boldsymbol { x } ) } \left[ \log D ^ { * } ( \boldsymbol { x } ) \right] + \mathbb { E } _ { \boldsymbol { x } \sim p _ { g } ( \boldsymbol { x } )} \left[ \log \left( 1 - D ^ { * } ( \boldsymbol { x } ) \right) \right] \\ &amp; = \min \mathbb { E } _ { \boldsymbol { x } \sim p _ { \text { data } } ( \boldsymbol { x } )} \left[ \log \frac { p _ { \text { data } } ( \boldsymbol { x } ) } { P _ { \text { data } } ( \boldsymbol { x } ) + p _ { g } ( \boldsymbol { x } ) } \right] \\ &amp; + \mathbb { E } _ { \boldsymbol { x } \sim p _ { g } ( \boldsymbol { x } )} \left[ \log \frac { p _ { g } ( \boldsymbol { x } ) } { p _ { \text { data } } ( \boldsymbol { x } ) + p _ { g } ( \boldsymbol { x } ) } \right] \\ &amp; = - \log ( 4 ) + K L \left( p _ { \text { data } } || \frac { p _ { \text { data } } + p _ { g } } { 2 } \right) + K L \left( p _ { g } || \frac { p _ { \text { data } } + p _ { g } } { 2 } \right) \\ &amp; = - \log ( 4 ) + 2 \cdot J S D \left( p _ { \text { data } } || p _ { g } \right)
+\end{align}
+$$</p>
+
+<p>Now we can see that $G$ is minimizing the Jensen– Shannon divergence between the model’s distribution and the true data distribution. All right, let&rsquo;s see the Tensorflow implementation of GAN to better understand the theory discussed above. The implementation is based on Deep Convolutional GAN (DCGAN) because the original GAN&rsquo;s training is very instable.</p>
+
+<h2 id="tensorflow-implementation">Tensorflow implementation</h2>
+
+<p>The generator part, it takes a vector of $z$ as input, output an fake image sample.</p>
+
+<pre><code class="language-python">def generator(self, z, is_training=True, reuse=False):
+    with tf.variable_scope('generator', reuse=reuse):
+        z = tf.reshape(z, [-1, 1, 1, self.config.z_dim])
+        # 1st hidden layer
+        conv1 = tf.layers.conv2d_transpose(z, 1024, [4, 4], strides=(1, 1), padding='valid')
+        lrelu1 = tf.nn.leaky_relu(tf.layers.batch_normalization(conv1, training=is_training), 0.2)
+    
+        # 2nd hidden layer
+        conv2 = tf.layers.conv2d_transpose(lrelu1, 512, [4, 4], strides=(2, 2), padding='same')
+        lrelu2 = tf.nn.leaky_relu(tf.layers.batch_normalization(conv2, training=is_training), 0.2)
+    
+        # 3rd hidden layer
+        conv3 = tf.layers.conv2d_transpose(lrelu2, 256, [4, 4], strides=(2, 2), padding='same')
+        lrelu3 = tf.nn.leaky_relu(tf.layers.batch_normalization(conv3, training=is_training), 0.2)
+    
+        # output layer
+        conv4 = tf.layers.conv2d_transpose(lrelu3, self.image_dim[-1], [4, 4], strides=(2, 2), padding='same')
+        out = tf.nn.sigmoid(conv4)
+
+        return out
+</code></pre>
+
+<p>The discriminator receive an image, outputs the probability that image is real.</p>
+
+<pre><code class="language-python">def discriminator(self, x, is_training=True, reuse=False):
+    with tf.variable_scope('discriminator', reuse=reuse):
+        # 1st hidden layer
+        conv1 = tf.layers.conv2d(x, 128, [4, 4], strides=(2, 2), padding='same')
+        lrelu1 = tf.nn.leaky_relu(conv1, 0.2)
+    
+        # 2nd hidden layer
+        conv2 = tf.layers.conv2d(lrelu1, 256, [4, 4], strides=(2, 2), padding='same')
+        lrelu2 = tf.nn.leaky_relu(tf.layers.batch_normalization(conv2, training=is_training), 0.2)
+    
+        # 3rd hidden layer
+        conv3 = tf.layers.conv2d(lrelu2, 512, [4, 4], strides=(2, 2), padding='same')
+        lrelu3 = tf.nn.leaky_relu(tf.layers.batch_normalization(conv3, training=is_training), 0.2)
+    
+        # output layer
+        logits = tf.layers.conv2d(lrelu3, 1, [4, 4], strides=(1, 1), padding='valid')
+        out = tf.nn.sigmoid(logits)
+    
+        return out, logits
+</code></pre>
+
+<p>The loss for both networks are pretty self-explainatory.</p>
+
+<pre><code class="language-python">def build_model(self):
+    # placeholder
+    self.input_x = tf.placeholder(dtype=tf.float32, shape=[None] + self.image_dim, name='input_x')
+    self.input_z = tf.placeholder(dtype=tf.float32, shape=[None, self.config.z_dim], name='input_z')
+
+    # generate fake data
+    self.g_fake = self.generator(self.input_z) 
+
+    # discrinminate real and fake data
+    self.d_real, self.d_real_logits = self.discriminator(self.input_x)
+    self.d_fake, self.d_fake_logits = self.discriminator(self.g_fake, reuse=True)
+
+    # testing generated images
+    self.generated_images = self.generator(self.input_z, is_training=False, reuse=True)
+
+    # loss
+    with tf.variable_scope(&quot;loss&quot;):
+        # loss for each network
+        d_loss_real = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=self.d_real_logits, labels=tf.ones_like(self.d_real_logits)))
+        d_loss_fake = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=self.d_fake_logits, labels=tf.zeros_like(self.d_fake_logits)))
+        self.d_loss = d_loss_real + d_loss_fake
+        self.g_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=self.d_fake_logits, labels=tf.ones_like(self.d_fake_logits)))
+    
+        # optimizer
+    with tf.variable_scope(&quot;optimizer&quot;):
+        t_vars = tf.trainable_variables()
+        d_vars = [var for var in t_vars if var.name.startswith('discriminator')]
+        g_vars = [var for var in t_vars if var.name.startswith('generator')]
+
+        with tf.control_dependencies(tf.get_collection(tf.GraphKeys.UPDATE_OPS)):
+            self.d_optim = tf.train.AdamOptimizer(self.config.learning_rate, beta1=0.5).minimize(self.d_loss, var_list=d_vars)
+            self.g_optim = tf.train.AdamOptimizer(self.config.learning_rate, beta1=0.5).minimize(self.g_loss, var_list=g_vars)
+</code></pre>
+
+<h2 id="generated-images-on-mnist">Generated images on MNIST</h2>
+
+<p><img src="/files/gan/mnist.png" alt="Figure 1. Randomly generated images on MNIST dataset" /></p>
+
+<h2 id="reference">Reference</h2>
+
+<ol>
+<li><p><a href="http://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf">Goodfellow, Ian, et al. &ldquo;Generative adversarial nets.&rdquo; Advances in neural information processing systems. 2014.</a></p></li>
+
+<li><p><a href="https://arxiv.org/pdf/1809.02145.pdf">Jolicoeur-Martineau, Alexia. &ldquo;GANs beyond divergence minimization.&rdquo; arXiv preprint arXiv:1809.02145 (2018).</a></p></li>
+</ol>
+
+        </div>
+        <footer class="article-footer">
+    <a data-url="https://hustwutao.github.io/2019/06/25/generative-adversarial-networks/" data-id="bd241bab946f3340658f6095f4ad4562" class="article-share-link">
+        <i class="fa fa-share"></i>
+        Share
+    </a>
+    
+    <a href="https://hustwutao.github.io/2019/06/25/generative-adversarial-networks/#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+    </script>
+</footer>
+
+    </div>
+
+    
+
+</article>
+
+
+<section id="comments">
+    <div id="disqus_thread">
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tao13" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+</section>
+
+
+    </section>
+
+   	
+    	<aside id="sidebar">
+    
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Recents
+    </h3>
+    <div class="widget">
+        <ul id="recent-post">
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="https://hustwutao.github.io/2019/06/29/trainging-generative-models-as-divergence-minimization/" class="thumbnail">
+                    
+                        <span style="background-image:url(https://hustwutao.github.io/banners/divergence.svg)" alt="Generative Adversarial Networks" class="thumbnail-image"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="https://hustwutao.github.io/categories/generative-models">
+                        Generative Models
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="https://hustwutao.github.io/2019/06/29/trainging-generative-models-as-divergence-minimization/" class="title">Trainging generative models as divergence minimization</a></p>
+                    <p class="item-date">
+                        <time datetime="2019-06-29 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-29</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="https://hustwutao.github.io/2019/06/25/generative-adversarial-networks/" class="thumbnail">
+                    
+                        <span style="background-image:url(https://hustwutao.github.io/banners/GAN.png)" alt="Generative Adversarial Networks" class="thumbnail-image"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="https://hustwutao.github.io/categories/generative-models">
+                        Generative Models
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="https://hustwutao.github.io/2019/06/25/generative-adversarial-networks/" class="title">Generative Adversarial Networks</a></p>
+                    <p class="item-date">
+                        <time datetime="2019-06-25 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-25</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="https://hustwutao.github.io/2019/06/19/variational-autoencoder/" class="thumbnail">
+                    
+                        <span style="background-image:url(https://hustwutao.github.io/banners/VAE.png)" alt="Generative Adversarial Networks" class="thumbnail-image"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="https://hustwutao.github.io/categories/generative-models">
+                        Generative Models
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="https://hustwutao.github.io/2019/06/19/variational-autoencoder/" class="title">Variational Autoencoder</a></p>
+                    <p class="item-date">
+                        <time datetime="2019-06-19 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-19</time>
+                    </p>
+                </div>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://hustwutao.github.io/categories/generative-models">
+                    generative-models
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tags
+    </h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://hustwutao.github.io/tags/gan">
+                    gan
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://hustwutao.github.io/tags/vae">
+                    vae
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+    
+	</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019
+      Tao Wu. Powered by <a href="//gohugo.io">Hugo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://hustwutao.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script src="https://hustwutao.github.io/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+</body>
+</html>

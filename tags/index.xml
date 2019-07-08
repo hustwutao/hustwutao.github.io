@@ -6,15 +6,24 @@
     <description>Recent content in Tags on Journey of Machine Learning</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 19 Jun 2019 12:10:51 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 29 Jun 2019 12:10:51 +0200</lastBuildDate>
     
 	<atom:link href="https://hustwutao.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>GAN</title>
+      <link>https://hustwutao.github.io/tags/gan/</link>
+      <pubDate>Sat, 29 Jun 2019 12:10:51 +0200</pubDate>
+      
+      <guid>https://hustwutao.github.io/tags/gan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>VAE</title>
       <link>https://hustwutao.github.io/tags/vae/</link>
-      <pubDate>Wed, 19 Jun 2019 12:10:51 +0200</pubDate>
+      <pubDate>Sat, 29 Jun 2019 12:10:51 +0200</pubDate>
       
       <guid>https://hustwutao.github.io/tags/vae/</guid>
       <description></description>

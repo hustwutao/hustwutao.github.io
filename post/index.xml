@@ -6,10 +6,31 @@
     <description>Recent content in Posts on Journey of Machine Learning</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 19 Jun 2019 12:10:51 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 29 Jun 2019 12:10:51 +0200</lastBuildDate>
     
 	<atom:link href="https://hustwutao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Trainging generative models as divergence minimization</title>
+      <link>https://hustwutao.github.io/2019/06/29/trainging-generative-models-as-divergence-minimization/</link>
+      <pubDate>Sat, 29 Jun 2019 12:10:51 +0200</pubDate>
+      
+      <guid>https://hustwutao.github.io/2019/06/29/trainging-generative-models-as-divergence-minimization/</guid>
+      <description>Generative models can be used for data compression, denoising, inpainting, image synthesis, semi-supervised learning, unsupervised representation learning, and other tasks. There are many kinds of generative models, and among which GAN, VAE and autoregressive models are the most popular ones. A great blog on Generative Models written by OpenAI is worth reading at length. In this blog, we mainly discuss generative models from a divergence minimization perspective.
+Generative models, as its name explains, it can be used to generate data, the prerequisite is to understand the training dataset, i.</description>
+    </item>
+    
+    <item>
+      <title>Generative Adversarial Networks</title>
+      <link>https://hustwutao.github.io/2019/06/25/generative-adversarial-networks/</link>
+      <pubDate>Tue, 25 Jun 2019 12:10:51 +0200</pubDate>
+      
+      <guid>https://hustwutao.github.io/2019/06/25/generative-adversarial-networks/</guid>
+      <description>Generative Adversarial Networks(GAN) [1] has become one of the most powerful techniques in machine learning since its emergence in 2014. The interesting idea of training methods and the flexible design of the objective function make GAN have numerous variants, and these variants even consist of a GAN zoo.
+Let&amp;rsquo;s first interpret GAN from perspectives and then see how to implement GAN in Tensorflow:
+Game Theory GAN consists of two models: a generative model $G$ that tries to generate realistic samples, and a discriminative model $D$ that tries to classify data from both $G$ and dataset.</description>
+    </item>
     
     <item>
       <title>Variational Autoencoder</title>

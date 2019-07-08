@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>VAE on Journey of Machine Learning</title>
-    <link>https://hustwutao.github.io/tags/vae/</link>
-    <description>Recent content in VAE on Journey of Machine Learning</description>
+    <title>GAN on Journey of Machine Learning</title>
+    <link>https://hustwutao.github.io/tags/gan/</link>
+    <description>Recent content in GAN on Journey of Machine Learning</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 29 Jun 2019 12:10:51 +0200</lastBuildDate>
     
-	<atom:link href="https://hustwutao.github.io/tags/vae/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://hustwutao.github.io/tags/gan/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -22,13 +22,14 @@ Generative models, as its name explains, it can be used to generate data, the pr
     </item>
     
     <item>
-      <title>Variational Autoencoder</title>
-      <link>https://hustwutao.github.io/2019/06/19/variational-autoencoder/</link>
-      <pubDate>Wed, 19 Jun 2019 12:10:51 +0200</pubDate>
+      <title>Generative Adversarial Networks</title>
+      <link>https://hustwutao.github.io/2019/06/25/generative-adversarial-networks/</link>
+      <pubDate>Tue, 25 Jun 2019 12:10:51 +0200</pubDate>
       
-      <guid>https://hustwutao.github.io/2019/06/19/variational-autoencoder/</guid>
-      <description>Variational Autoencoder (VAE) can be seen as a stochastic version of conventional autoencoder which imposes some constraints on the distribution of latent variables, however, the original VAE was derived from Variational Bayesian method and linked to Autoencoder just because some terms in objective function can be interpreted as an encoder and a decoder.
-Let&amp;rsquo;s first derive VAE from scratch and then we see how to implement it in Tensorflow.</description>
+      <guid>https://hustwutao.github.io/2019/06/25/generative-adversarial-networks/</guid>
+      <description>Generative Adversarial Networks(GAN) [1] has become one of the most powerful techniques in machine learning since its emergence in 2014. The interesting idea of training methods and the flexible design of the objective function make GAN have numerous variants, and these variants even consist of a GAN zoo.
+Let&amp;rsquo;s first interpret GAN from perspectives and then see how to implement GAN in Tensorflow:
+Game Theory GAN consists of two models: a generative model $G$ that tries to generate realistic samples, and a discriminative model $D$ that tries to classify data from both $G$ and dataset.</description>
     </item>
     
   </channel>
