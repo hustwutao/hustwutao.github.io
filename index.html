@@ -2,7 +2,7 @@
 <html lang="en-us">
 <head>
     <title>Journey of Machine Learning</title>
-    <meta name="generator" content="Hugo 0.55.6" />
+    <meta name="generator" content="Hugo 0.56.3" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="Tao Wu">
@@ -28,11 +28,10 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://hustwutao.github.io/" />
 
-<meta property="og:updated_time" content="2019-06-29T12:10:51&#43;02:00"/>
+<meta property="og:updated_time" content="2019-07-24T12:10:51+02:00" />
 
     
-    
-<meta itemprop="name" content="Journey of Machine Learning">
+    <meta itemprop="name" content="Journey of Machine Learning">
 <meta itemprop="description" content="">
 
 
@@ -168,12 +167,12 @@
     </div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        3
+        4
         <span>Posts</span>
       </div>
       <div class="article-info-block">
         
-          2
+          3
         
         <span>
             Tags
@@ -251,6 +250,155 @@
 <article class="article article-type-post" itemscope="" itemprop="blogPost">
     <div class="article-inner">
         
+        <a href="https://hustwutao.github.io/2019/07/24/adversarial-examples/" itemprop="url">
+            <img src="https://hustwutao.github.io/banners/adv_ex.png" class="article-banner">
+        
+        </a>
+
+        <header class="article-header">
+    <a href="https://hustwutao.github.io/2019/07/24/adversarial-examples/">
+    <h1 class="article-title" itemprop="name">
+        Adversarial Examples
+    </h1>
+    </a>
+    <div class="article-meta">
+
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2019-07-24 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-07-24</time>
+            &middot;
+            400
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="https://hustwutao.github.io/categories/adversarial-examples">Adversarial Examples</a>
+                
+                
+            </div>
+            
+        
+
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="https://hustwutao.github.io/tags/adversarial-examples">Adversarial Examples</a>
+                
+                
+            </div>
+            
+        
+    </div>
+</header>
+
+        <div class="article-entry" itemprop="articleBody">
+            <p>
+                As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, let&rsquo;s see some methods of creating and defensing adversarial examples.
+An adversarial example is a sample of input data which has been modified very slightly in a way that the modification are imperceptible to human but can easily fool deep neural networks.
+            </p>
+            <p class="article-more-link">
+                <a href="https://hustwutao.github.io/2019/07/24/adversarial-examples/">
+                    Read more
+                </a>
+            </p>
+        </div>
+        <footer class="article-footer">
+    <a data-url="https://hustwutao.github.io/2019/07/24/adversarial-examples/" data-id="819159779f843f716508e998aab02f95" class="article-share-link">
+        <i class="fa fa-share"></i>
+        Share
+    </a>
+    
+    <a href="https://hustwutao.github.io/2019/07/24/adversarial-examples/#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+    </script>
+</footer>
+
+    </div>
+</article>
+
+<article class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
         <a href="https://hustwutao.github.io/2019/06/29/trainging-generative-models-as-divergence-minimization/" itemprop="url">
             <img src="https://hustwutao.github.io/banners/divergence.svg" class="article-banner">
         
@@ -269,7 +417,7 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2019-06-29 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-29</time>
             &middot;
-            1827
+            1826
             words
             &middot;
             9
@@ -422,7 +570,7 @@ Generative models, as its name explains, it can be used to generate data, the pr
             <i class="fa fa-calendar"></i>
             <time datetime="2019-06-25 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-25</time>
             &middot;
-            1919
+            1923
             words
             &middot;
             10
@@ -572,7 +720,7 @@ Game Theory GAN consists of two models: a generative model $G$ that tries to gen
             <i class="fa fa-calendar"></i>
             <time datetime="2019-06-19 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-19</time>
             &middot;
-            3110
+            3114
             words
             &middot;
             15
@@ -720,6 +868,32 @@ Let&rsquo;s first derive VAE from scratch and then we see how to implement it in
             
             <li>
                 <div class="item-thumbnail">
+                    <a href="https://hustwutao.github.io/2019/07/24/adversarial-examples/" class="thumbnail">
+                    
+                        <span style="background-image:url(https://hustwutao.github.io/banners/adv_ex.png)" alt="Journey of Machine Learning" class="thumbnail-image"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="https://hustwutao.github.io/categories/adversarial-examples">
+                        Adversarial Examples
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="https://hustwutao.github.io/2019/07/24/adversarial-examples/" class="title">Adversarial Examples</a></p>
+                    <p class="item-date">
+                        <time datetime="2019-07-24 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-07-24</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
                     <a href="https://hustwutao.github.io/2019/06/29/trainging-generative-models-as-divergence-minimization/" class="thumbnail">
                     
                         <span style="background-image:url(https://hustwutao.github.io/banners/divergence.svg)" alt="Journey of Machine Learning" class="thumbnail-image"></span>
@@ -811,6 +985,14 @@ Let&rsquo;s first derive VAE from scratch and then we see how to implement it in
             
             <li class="category-list-item">
                 
+                <a class="category-list-link" href="https://hustwutao.github.io/categories/adversarial-examples">
+                    adversarial-examples
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
                 <a class="category-list-link" href="https://hustwutao.github.io/categories/generative-models">
                     generative-models
                 </a>
@@ -833,6 +1015,14 @@ Let&rsquo;s first derive VAE from scratch and then we see how to implement it in
     </h3>
     <div class="widget">
         <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://hustwutao.github.io/tags/adversarial-examples">
+                    adversarial-examples
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
             
             <li class="category-list-item">
                 

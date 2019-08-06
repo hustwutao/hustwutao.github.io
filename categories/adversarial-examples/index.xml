@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Adversarial Examples on Journey of Machine Learning</title>
+    <link>https://hustwutao.github.io/categories/adversarial-examples/</link>
+    <description>Recent content in Adversarial Examples on Journey of Machine Learning</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 24 Jul 2019 12:10:51 +0200</lastBuildDate>
+    
+	<atom:link href="https://hustwutao.github.io/categories/adversarial-examples/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Adversarial Examples</title>
+      <link>https://hustwutao.github.io/2019/07/24/adversarial-examples/</link>
+      <pubDate>Wed, 24 Jul 2019 12:10:51 +0200</pubDate>
+      
+      <guid>https://hustwutao.github.io/2019/07/24/adversarial-examples/</guid>
+      <description>As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, let&amp;rsquo;s see some methods of creating and defensing adversarial examples.
+An adversarial example is a sample of input data which has been modified very slightly in a way that the modification are imperceptible to human but can easily fool deep neural networks.</description>
+    </item>
+    
+  </channel>
+</rss>

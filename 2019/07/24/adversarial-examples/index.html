@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-    <title>404 Page not found &middot; Journey of Machine Learning</title>
+    <title>Adversarial Examples &middot; Journey of Machine Learning</title>
     <meta name="generator" content="Hugo 0.56.3" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -10,7 +10,7 @@
       <meta name="description" content="My journey of ML">
     
     
-    <link rel="canonical" href="https://hustwutao.github.io/404.html"/>
+    <link rel="canonical" href="https://hustwutao.github.io/2019/07/24/adversarial-examples/"/>
     <link rel="icon" href="https://hustwutao.github.io/favicon.ico">
     <link rel="apple-touch-icon" href="https://hustwutao.github.io/apple-touch-icon.png"/>
     <link rel="stylesheet" href="https://hustwutao.github.io/css/style.css">
@@ -20,20 +20,32 @@
     
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
-    <meta property="og:title" content="404 Page not found" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://hustwutao.github.io/404.html" />
-
+    <meta property="og:title" content="Adversarial Examples" />
+<meta property="og:description" content="As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, let&rsquo;s see some methods of creating and defensing adversarial examples.
+An adversarial example is a sample of input data which has been modified very slightly in a way that the modification are imperceptible to human but can easily fool deep neural networks." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hustwutao.github.io/2019/07/24/adversarial-examples/" />
+<meta property="article:published_time" content="2019-07-24T12:10:51+02:00" />
+<meta property="article:modified_time" content="2019-07-24T12:10:51+02:00" />
 
     
-    <meta itemprop="name" content="404 Page not found">
-<meta itemprop="description" content="">
+    <meta itemprop="name" content="Adversarial Examples">
+<meta itemprop="description" content="As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, let&rsquo;s see some methods of creating and defensing adversarial examples.
+An adversarial example is a sample of input data which has been modified very slightly in a way that the modification are imperceptible to human but can easily fool deep neural networks.">
 
+
+<meta itemprop="datePublished" content="2019-07-24T12:10:51&#43;02:00" />
+<meta itemprop="dateModified" content="2019-07-24T12:10:51&#43;02:00" />
+<meta itemprop="wordCount" content="400">
+
+
+
+<meta itemprop="keywords" content="Adversarial Examples," />
 
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="404 Page not found"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="Adversarial Examples"/>
+<meta name="twitter:description" content="As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, let&rsquo;s see some methods of creating and defensing adversarial examples.
+An adversarial example is a sample of input data which has been modified very slightly in a way that the modification are imperceptible to human but can easily fool deep neural networks."/>
 
     
 
@@ -241,22 +253,230 @@
 
     <section id="main">
     
-<article class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
     <div class="article-inner">
-        <div class="article-entry" itemprop="articleBody">
-            <p>
-                <center>
-                <h1>
-                    404 - page not found
-                </h1>
-                <h3>
-                    The content you&#39;re looking for doesn&#39;t seem to exist.
-                </h3>
-                </center>
-            </p>
+        
+            <img src="https://hustwutao.github.io/banners/adv_ex.png" class="article-banner">
+        
+
+        <header class="article-header">
+    <a href="https://hustwutao.github.io/2019/07/24/adversarial-examples/">
+    <h1 class="article-title" itemprop="name">
+        Adversarial Examples
+    </h1>
+    </a>
+    <div class="article-meta">
+
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2019-07-24 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-07-24</time>
+            &middot;
+            400
+            words
+            &middot;
+            2
+            minute read
         </div>
+        
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="https://hustwutao.github.io/categories/adversarial-examples">Adversarial Examples</a>
+                
+                
+            </div>
+            
+        
+
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="https://hustwutao.github.io/tags/adversarial-examples">Adversarial Examples</a>
+                
+                
+            </div>
+            
+        
     </div>
+</header>
+
+        <div class="article-entry" itemprop="articleBody">
+            
+
+<p>As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, let&rsquo;s see some methods of creating and defensing adversarial examples.</p>
+
+<p>An adversarial example is a sample of input data which has been modified very slightly in a way that the modification are imperceptible to human but can easily fool deep neural networks. The term was introduced in [1] in the context of neural networks for computer vision, now people can generate adversarial examples in other areas like NLP, speech, reinforcement learning and generative models, etc. Adversarial examples fall into the machine learning security field and have many interesting properties.</p>
+
+<h2 id="how-to-attack">How to attack</h2>
+
+<p>Firstly, let&rsquo;s see some methods to generate adversarial examples. There are a variety of methods, generally, we can regard them two types: one-step methods and iterative methods. As to how to attack the model, there are white-box attack and black-box attack.</p>
+
+<h3 id="one-step-method">One-step method</h3>
+
+<h3 id="iterative-methods">iterative methods</h3>
+
+<p>white-box attacks are typically more powerful than their black-box counterparts</p>
+
+<h3 id="white-box-attacks">white-box attacks</h3>
+
+<p>adversary has full knowledge
+of the model, including the model architecture, parameters,
+and the defense strategies used in the model.</p>
+
+<h3 id="black-box">black-box</h3>
+
+<p>leverage the transferability</p>
+
+<h2 id="how-to-defense">How to defense</h2>
+
+<p>Now that adversarial examples raise great threat to our DL models, we have to fight with them. Unfortunately, there is not yet any known strong defense against adversarial examples.</p>
+
+<p>The first direction attempts to produce correct predictions
+on adversarial examples, while not compromising
+the accuracy on legitimate inputs [27, 7, 9]. The other
+(more recent) direction instead attempts to detect adversarial
+examples, without introducing too many false positives.</p>
+
+<h3 id="defensive-distillation">defensive distillation</h3>
+
+<h3 id="adversarial-training-training-on-adversarial-examples-as-well-as-regular-examples">adversarial training (training on adversarial examples as well as regular examples)</h3>
+
+<p>A major difficulty of adversarial training is that it tends to overfit to the method of adversarial example generation used at training time. For example, models trained to resist FGSM adversarial examples usually fail to resist L-BFGS adversarial examples.</p>
+
+<p>Properties of adversarial examples</p>
+
+<p>Adversarial examples that fool one model often fool another model, even if the two models are trained on different training examples (corresponding to the same task) or have different architectures</p>
+
+<p>the reason adversarial
+examples exist</p>
+
+<h2 id="reference">Reference</h2>
+
+<ol>
+<li><a href="https://arxiv.org/pdf/1312.6199.pdf">Szegedy, Christian, et al. &ldquo;Intriguing properties of neural networks.&rdquo; arXiv preprint arXiv:1312.6199 (2013).</a></li>
+</ol>
+
+<p><em>Banner image source: <a href="https://arxiv.org/abs/1412.6572">https://arxiv.org/abs/1412.6572</a></em></p>
+
+        </div>
+        <footer class="article-footer">
+    <a data-url="https://hustwutao.github.io/2019/07/24/adversarial-examples/" data-id="819159779f843f716508e998aab02f95" class="article-share-link">
+        <i class="fa fa-share"></i>
+        Share
+    </a>
+    
+    <a href="https://hustwutao.github.io/2019/07/24/adversarial-examples/#disqus_thread" class="article-comment-link">
+        Comments
+    </a>
+    
+
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+    </script>
+</footer>
+
+    </div>
+
+    
+
 </article>
+
+
+<section id="comments">
+    <div id="disqus_thread">
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tao13" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+</section>
+
 
     </section>
 
@@ -274,7 +494,7 @@
                 <div class="item-thumbnail">
                     <a href="https://hustwutao.github.io/2019/07/24/adversarial-examples/" class="thumbnail">
                     
-                        <span style="background-image:url(https://hustwutao.github.io/banners/adv_ex.png)" alt="404 Page not found" class="thumbnail-image"></span>
+                        <span style="background-image:url(https://hustwutao.github.io/banners/adv_ex.png)" alt="Adversarial Examples" class="thumbnail-image"></span>
                     
                     </a>
                 </div>
@@ -300,7 +520,7 @@
                 <div class="item-thumbnail">
                     <a href="https://hustwutao.github.io/2019/06/29/trainging-generative-models-as-divergence-minimization/" class="thumbnail">
                     
-                        <span style="background-image:url(https://hustwutao.github.io/banners/divergence.svg)" alt="404 Page not found" class="thumbnail-image"></span>
+                        <span style="background-image:url(https://hustwutao.github.io/banners/divergence.svg)" alt="Adversarial Examples" class="thumbnail-image"></span>
                     
                     </a>
                 </div>
@@ -326,7 +546,7 @@
                 <div class="item-thumbnail">
                     <a href="https://hustwutao.github.io/2019/06/25/generative-adversarial-networks/" class="thumbnail">
                     
-                        <span style="background-image:url(https://hustwutao.github.io/banners/GAN.png)" alt="404 Page not found" class="thumbnail-image"></span>
+                        <span style="background-image:url(https://hustwutao.github.io/banners/GAN.png)" alt="Adversarial Examples" class="thumbnail-image"></span>
                     
                     </a>
                 </div>
@@ -352,7 +572,7 @@
                 <div class="item-thumbnail">
                     <a href="https://hustwutao.github.io/2019/06/19/variational-autoencoder/" class="thumbnail">
                     
-                        <span style="background-image:url(https://hustwutao.github.io/banners/VAE.png)" alt="404 Page not found" class="thumbnail-image"></span>
+                        <span style="background-image:url(https://hustwutao.github.io/banners/VAE.png)" alt="Adversarial Examples" class="thumbnail-image"></span>
                     
                     </a>
                 </div>
