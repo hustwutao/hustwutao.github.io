@@ -36,7 +36,7 @@ Let&rsquo;s first derive VAE from scratch and then we see how to implement it in
 
 <meta itemprop="datePublished" content="2019-06-19T12:10:51&#43;02:00" />
 <meta itemprop="dateModified" content="2019-06-19T12:10:51&#43;02:00" />
-<meta itemprop="wordCount" content="3114">
+<meta itemprop="wordCount" content="3104">
 
 
 
@@ -272,7 +272,7 @@ Let&rsquo;s first derive VAE from scratch and then we see how to implement it in
             <i class="fa fa-calendar"></i>
             <time datetime="2019-06-19 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-19</time>
             &middot;
-            3114
+            3104
             words
             &middot;
             15
@@ -457,22 +457,20 @@ $$</p>
         lr_conv1 = tf.nn.leaky_relu(conv1)
         #2nd convolutional layer
         conv2 = tf.layers.conv2d(inputs=lr_conv1, filters=128, kernel_size=[4, 4], strides=(2, 2), padding='same')
-        lr_conv2 = tf.nn.leaky_relu(tf.layers.batch_normalization(conv2, training = is_training))
+        lr_conv2 = tf.nn.leaky_relu(tf.layers.batch_normalization(conv2, training=is_training))
         # flatten the convolutional layer
         flat = tf.layers.flatten(lr_conv2)
-        #flat = tf.reshape(lr_conv2, [self.batch_size, -1])
         # 1st fully-connected layer
         fc1 = tf.layers.dense(flat, units=1024)
-        lr_fc1 = tf.nn.leaky_relu(tf.layers.batch_normalization(fc1, training = is_training))
+        lr_fc1 = tf.nn.leaky_relu(tf.layers.batch_normalization(fc1, training=is_training))
         # output layer
-        out = tf.layers.dense(lr_fc1, units=2*self.z_dim)
+        out = tf.layers.dense(lr_fc1, units=2*self.config.z_dim)
         # The mean parameter is unconstrained
-        mean = out[:, :self.z_dim]
+        mean = out[:, :self.config.z_dim]
         # The standard deviation must be positive. Parametrize with a softplus and
         # add a small epsilon for numerical stability
-        stddev = 1e-6 + tf.nn.softplus(out[:, self.z_dim:])
-        return mean, stddev
-
+        stddev = EPS + tf.nn.softplus(out[:, self.config.z_dim:])
+       return mean, stddev
 </code></pre>
 
 <p>Then implement the decoder network, taking latent variables $z$ as input, output the Bernoulli parameter.</p>
@@ -483,48 +481,50 @@ $$</p>
         fc1 = tf.layers.dense(z, units=1024)
         r_fc1 = tf.nn.relu(tf.layers.batch_normalization(fc1, training=is_training))
         # 2nd fully-connected layer
-        fc2 = tf.layers.dense(r_fc1, units=8 * 8 * 128)
+        fc2 = tf.layers.dense(r_fc1, units=7 * 7 * 128)
         r_fc2 = tf.nn.relu(tf.layers.batch_normalization(fc2, training=is_training))
         # reshape the fully-connected layer
-        deflat = tf.reshape(r_fc2, [-1, 8, 8, 128])
+        to_conv = tf.reshape(r_fc2, [-1, 7, 7, 128])
         # 1st deconvolutional layer
-        deconv1 = tf.layers.conv2d_transpose(inputs=deflat, filters=64, kernel_size=[4, 4], strides=(2, 2), padding='same')
+        deconv1 = tf.layers.conv2d_transpose(inputs=to_conv, filters=64, kernel_size=[4, 4], strides=(2, 2), padding='same')
         r_deconv1 = tf.nn.relu(tf.layers.batch_normalization(deconv1, training=is_training))
         # output layer
         deconv_out = tf.layers.conv2d_transpose(inputs=r_deconv1, filters=1, kernel_size=[4, 4], strides=(2, 2), padding='same')
         out = tf.nn.sigmoid(deconv_out)
-        return out
-
 </code></pre>
 
 <p>We can see how reparameteration trick works and how to implement the objective.</p>
 
 <pre><code class="language-python">def build_model(self):
-    # placeholder
-    self.input_x = tf.placeholder(dtype = tf.float32, shape = [None] + self.image_dim, name = 'input_x')
-    self.input_z = tf.placeholder(dtype = tf.float32, shape = [None, self.z_dim], name = 'input_z')
-    # encoding 
-    mu, sigma = self.encoder(self.input_x, is_training = True, reuse = False)
-    # reparameterize
-    z = mu + sigma * tf.random_normal(tf.shape(mu), 0, 1, dtype = tf.float32)
-    # decoding 
-    outputs = self.decoder(z, is_training = True, reuse = False)
-    self.outputs = tf.clip_by_value(outputs, 1e-8, 1 - 1e-8)
-    # loss 
-    self.nll = -tf.reduce_mean(tf.reduce_sum(self.input_x * tf.log(self.outputs) 
-        + (1 - self.input_x) * tf.log(1 - self.outputs), [1, 2]))
-    self.KL_div = tf.reduce_mean(0.5 * tf.reduce_sum(tf.square(mu) + tf.square(sigma) 
-        - tf.log(1e-8 + tf.square(sigma)) - 1, [1]))
-    ELBO = -(self.nll + self.KL_div)
-    self.loss = -ELBO
-    # optimizer
-    t_vars = tf.trainable_variables()
-    with tf.control_dependencies(tf.get_collection(tf.GraphKeys.UPDATE_OPS)):
-        self.optim = tf.train.AdamOptimizer(self.learning_rate).minimize(self.loss, var_list = t_vars)
-
+   with tf.variable_scope(&quot;placeholder&quot;):
+        self.input_x = tf.placeholder(dtype=tf.float32, shape=[None] + self.image_dim, name='input_x')
+        self.input_z = tf.placeholder(dtype=tf.float32, shape=[None, self.config.z_dim], name='input_z')
+   with tf.variable_scope(&quot;encoding&quot;):
+        mu, sigma = self.encoder(self.input_x, is_training=True, reuse=False)
+        z = mu + sigma * tf.random_normal(tf.shape(mu), 0, 1, dtype=tf.float32)
+   with tf.variable_scope(&quot;decoding&quot;):
+        self.outputs = self.decoder(z, is_training=True, reuse=False)
+        self.generated_images = self.decoder(self.input_z, is_training=False, reuse=True)
+   with tf.variable_scope(&quot;loss&quot;):
+        self.recon_loss = -tf.reduce_mean(tf.reduce_sum(self.input_x * tf.log(EPS + self.outputs) + (1 - self.input_x) * tf.log(EPS + 1 - self.outputs), axis=[1, 2, 3]))
+        self.kl_loss = -tf.reduce_mean(0.5 * tf.reduce_sum(1 + tf.log(EPS + tf.square(sigma))- tf.square(mu) - tf.square(sigma), axis=1))
+        self.loss = self.recon_loss + self.kl_loss
+   with tf.variable_scope(&quot;optimizer&quot;):
+        t_vars = tf.trainable_variables()
+        with tf.control_dependencies(tf.get_collection(tf.GraphKeys.UPDATE_OPS)):
+            self.optim = tf.train.AdamOptimizer(self.config.learning_rate).minimize(self.loss, var_list=t_vars)
+   with tf.variable_scope(&quot;counter&quot;):
+        self.epoch_counter = tf.Variable(0, trainable=False, name='epoch_counter')
+        self.increment_epoch = tf.assign(self.epoch_counter, self.epoch_counter + 1)
+        self.global_step = tf.Variable(0, trainable=False, name='global_step_counter')
+        self.increment_global_step = tf.assign(self.global_step, self.global_step + 1)
 </code></pre>
 
-<p>The full codes can be seen at <a href="https://git.mst.edu/acil-group/tf_vae_collection/blob/master/models/VAE.py">https://git.mst.edu/acil-group/tf_vae_collection/blob/master/models/VAE.py</a></p>
+<p>The full codes can be seen at <a href="https://github.com/hustwutao/codes/blob/master/tensorflow/VAE/mnist/models/vae.py">https://github.com/hustwutao/codes/blob/master/tensorflow/VAE/mnist/models/vae.py</a></p>
+
+<h2 id="generated-images-on-mnist">Generated images on MNIST</h2>
+
+<p><img src="/files/vae/mnist.png" alt="Figure 1. Randomly generated images on MNIST dataset" /></p>
 
 <h2 id="reference">Reference</h2>
 
