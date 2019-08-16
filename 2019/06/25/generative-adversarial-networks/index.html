@@ -38,7 +38,7 @@ Game Theory GAN consists of two models: a generative model $G$ that tries to gen
 
 <meta itemprop="datePublished" content="2019-06-25T12:10:51&#43;02:00" />
 <meta itemprop="dateModified" content="2019-06-25T12:10:51&#43;02:00" />
-<meta itemprop="wordCount" content="1923">
+<meta itemprop="wordCount" content="1933">
 
 
 
@@ -275,7 +275,7 @@ Game Theory GAN consists of two models: a generative model $G$ that tries to gen
             <i class="fa fa-calendar"></i>
             <time datetime="2019-06-25 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-06-25</time>
             &middot;
-            1923
+            1933
             words
             &middot;
             10
@@ -385,23 +385,27 @@ $$</p>
 
 <pre><code class="language-python">def generator(self, z, is_training=True, reuse=False):
     with tf.variable_scope('generator', reuse=reuse):
-        z = tf.reshape(z, [-1, 1, 1, self.config.z_dim])
         # 1st hidden layer
-        conv1 = tf.layers.conv2d_transpose(z, 1024, [4, 4], strides=(1, 1), padding='valid')
-        lrelu1 = tf.nn.leaky_relu(tf.layers.batch_normalization(conv1, training=is_training), 0.2)
-    
-        # 2nd hidden layer
-        conv2 = tf.layers.conv2d_transpose(lrelu1, 512, [4, 4], strides=(2, 2), padding='same')
-        lrelu2 = tf.nn.leaky_relu(tf.layers.batch_normalization(conv2, training=is_training), 0.2)
-    
-        # 3rd hidden layer
-        conv3 = tf.layers.conv2d_transpose(lrelu2, 256, [4, 4], strides=(2, 2), padding='same')
-        lrelu3 = tf.nn.leaky_relu(tf.layers.batch_normalization(conv3, training=is_training), 0.2)
-    
-        # output layer
-        conv4 = tf.layers.conv2d_transpose(lrelu3, self.image_dim[-1], [4, 4], strides=(2, 2), padding='same')
-        out = tf.nn.sigmoid(conv4)
+        fc1 = tf.layers.dense(z, units=1024)
+        bn1 = tf.layers.batch_normalization(fc1, training=is_training)
+        relu1 = tf.nn.relu(bn1)
 
+        # 2nd hidden layer
+        fc2 = tf.layers.dense(relu1, units=128 * 7 * 7)
+        bn2 = tf.layers.batch_normalization(fc2, training=is_training)
+        relu2 = tf.nn.relu(bn2)
+
+        # reshape
+        net = tf.reshape(relu2, [-1, 7, 7, 128])
+
+        # 3rd hidden layer
+        conv3 = tf.layers.conv2d_transpose(net, 64, [4, 4], strides=(2, 2), padding='same')
+        bn3 = tf.layers.batch_normalization(conv3, training=is_training)
+        relu3 = tf.nn.relu(bn3)
+
+        # output layer
+        conv4 = tf.layers.conv2d_transpose(relu3, self.image_dim[-1], [4, 4], strides=(2, 2), padding='same')
+        out = tf.nn.sigmoid(conv4)
         return out
 </code></pre>
 
@@ -410,58 +414,56 @@ $$</p>
 <pre><code class="language-python">def discriminator(self, x, is_training=True, reuse=False):
     with tf.variable_scope('discriminator', reuse=reuse):
         # 1st hidden layer
-        conv1 = tf.layers.conv2d(x, 128, [4, 4], strides=(2, 2), padding='same')
+        conv1 = tf.layers.conv2d(x, 64, [4, 4], strides=(2, 2), padding='same')
         lrelu1 = tf.nn.leaky_relu(conv1, 0.2)
-    
+
         # 2nd hidden layer
-        conv2 = tf.layers.conv2d(lrelu1, 256, [4, 4], strides=(2, 2), padding='same')
+        conv2 = tf.layers.conv2d(lrelu1, 128, [4, 4], strides=(2, 2), padding='same')
         lrelu2 = tf.nn.leaky_relu(tf.layers.batch_normalization(conv2, training=is_training), 0.2)
-    
+
+        # flatten
+        net = tf.layers.flatten(lrelu2)
+
         # 3rd hidden layer
-        conv3 = tf.layers.conv2d(lrelu2, 512, [4, 4], strides=(2, 2), padding='same')
-        lrelu3 = tf.nn.leaky_relu(tf.layers.batch_normalization(conv3, training=is_training), 0.2)
-    
+        fc3 = tf.layers.dense(net, units=1024)
+        bn3 = tf.layers.batch_normalization(fc3, training=is_training)
+        lrelu3 = tf.nn.leaky_relu(bn3)
+
         # output layer
-        logits = tf.layers.conv2d(lrelu3, 1, [4, 4], strides=(1, 1), padding='valid')
+        logits = tf.layers.dense(lrelu3, units=1)
         out = tf.nn.sigmoid(logits)
-    
         return out, logits
 </code></pre>
 
 <p>The loss for both networks are pretty self-explainatory.</p>
 
 <pre><code class="language-python">def build_model(self):
-    # placeholder
-    self.input_x = tf.placeholder(dtype=tf.float32, shape=[None] + self.image_dim, name='input_x')
-    self.input_z = tf.placeholder(dtype=tf.float32, shape=[None, self.config.z_dim], name='input_z')
-
-    # generate fake data
-    self.g_fake = self.generator(self.input_z) 
-
-    # discrinminate real and fake data
-    self.d_real, self.d_real_logits = self.discriminator(self.input_x)
-    self.d_fake, self.d_fake_logits = self.discriminator(self.g_fake, reuse=True)
-
-    # testing generated images
-    self.generated_images = self.generator(self.input_z, is_training=False, reuse=True)
-
-    # loss
-    with tf.variable_scope(&quot;loss&quot;):
-        # loss for each network
+   with tf.variable_scope(&quot;placeholder&quot;):
+        self.input_x = tf.placeholder(dtype=tf.float32, shape=[None] + self.image_dim, name='input_x')
+        self.input_z = tf.placeholder(dtype=tf.float32, shape=[None, self.config.z_dim], name='input_z')
+   with tf.variable_scope(&quot;generating&quot;):
+        self.g_fake = self.generator(self.input_z, is_training=True, reuse=False)
+        self.generated_images = self.generator(self.input_z, is_training=False, reuse=True)
+   with tf.variable_scope(&quot;discriminating&quot;):
+        self.d_real, self.d_real_logits = self.discriminator(self.input_x)
+        self.d_fake, self.d_fake_logits = self.discriminator(self.g_fake, reuse=True)
+   with tf.variable_scope(&quot;loss&quot;):
         d_loss_real = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=self.d_real_logits, labels=tf.ones_like(self.d_real_logits)))
         d_loss_fake = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=self.d_fake_logits, labels=tf.zeros_like(self.d_fake_logits)))
         self.d_loss = d_loss_real + d_loss_fake
         self.g_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=self.d_fake_logits, labels=tf.ones_like(self.d_fake_logits)))
-    
-        # optimizer
-    with tf.variable_scope(&quot;optimizer&quot;):
+   with tf.variable_scope(&quot;optimizer&quot;):
         t_vars = tf.trainable_variables()
-        d_vars = [var for var in t_vars if var.name.startswith('discriminator')]
-        g_vars = [var for var in t_vars if var.name.startswith('generator')]
-
+        d_vars = [var for var in t_vars if 'discriminator' in var.name]
+        g_vars = [var for var in t_vars if 'generator' in var.name]
         with tf.control_dependencies(tf.get_collection(tf.GraphKeys.UPDATE_OPS)):
             self.d_optim = tf.train.AdamOptimizer(self.config.learning_rate, beta1=0.5).minimize(self.d_loss, var_list=d_vars)
             self.g_optim = tf.train.AdamOptimizer(self.config.learning_rate, beta1=0.5).minimize(self.g_loss, var_list=g_vars)
+   with tf.variable_scope(&quot;counter&quot;):
+        self.epoch_counter = tf.Variable(0, trainable=False, name='epoch_counter')
+        self.increment_epoch = tf.assign(self.epoch_counter, self.epoch_counter + 1)
+        self.global_step = tf.Variable(0, trainable=False, name='global_step_counter')
+        self.increment_global_step = tf.assign(self.global_step, self.global_step + 1)
 </code></pre>
 
 <h2 id="generated-images-on-mnist">Generated images on MNIST</h2>

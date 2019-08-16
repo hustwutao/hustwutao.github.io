@@ -17,8 +17,8 @@
       <pubDate>Wed, 24 Jul 2019 12:10:51 +0200</pubDate>
       
       <guid>https://hustwutao.github.io/2019/07/24/adversarial-examples/</guid>
-      <description>As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, let&amp;rsquo;s see some methods of creating and defensing adversarial examples.
-An adversarial example is a sample of input data which has been modified very slightly in a way that the modification are imperceptible to human but can easily fool deep neural networks.</description>
+      <description>As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, we will see what is adversarial examples as well as how to create adversarial examples and to defense them.
+An adversarial example is a sample of input data which has been modified very slightly in a way that the modifications are imperceptible to human but can easily fool DL models.</description>
     </item>
     
   </channel>

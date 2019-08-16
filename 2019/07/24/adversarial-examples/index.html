@@ -21,8 +21,8 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
     <meta property="og:title" content="Adversarial Examples" />
-<meta property="og:description" content="As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, let&rsquo;s see some methods of creating and defensing adversarial examples.
-An adversarial example is a sample of input data which has been modified very slightly in a way that the modification are imperceptible to human but can easily fool deep neural networks." />
+<meta property="og:description" content="As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, we will see what is adversarial examples as well as how to create adversarial examples and to defense them.
+An adversarial example is a sample of input data which has been modified very slightly in a way that the modifications are imperceptible to human but can easily fool DL models." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hustwutao.github.io/2019/07/24/adversarial-examples/" />
 <meta property="article:published_time" content="2019-07-24T12:10:51+02:00" />
@@ -30,13 +30,13 @@ An adversarial example is a sample of input data which has been modified very sl
 
     
     <meta itemprop="name" content="Adversarial Examples">
-<meta itemprop="description" content="As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, let&rsquo;s see some methods of creating and defensing adversarial examples.
-An adversarial example is a sample of input data which has been modified very slightly in a way that the modification are imperceptible to human but can easily fool deep neural networks.">
+<meta itemprop="description" content="As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, we will see what is adversarial examples as well as how to create adversarial examples and to defense them.
+An adversarial example is a sample of input data which has been modified very slightly in a way that the modifications are imperceptible to human but can easily fool DL models.">
 
 
 <meta itemprop="datePublished" content="2019-07-24T12:10:51&#43;02:00" />
 <meta itemprop="dateModified" content="2019-07-24T12:10:51&#43;02:00" />
-<meta itemprop="wordCount" content="443">
+<meta itemprop="wordCount" content="536">
 
 
 
@@ -44,8 +44,8 @@ An adversarial example is a sample of input data which has been modified very sl
 
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Adversarial Examples"/>
-<meta name="twitter:description" content="As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, let&rsquo;s see some methods of creating and defensing adversarial examples.
-An adversarial example is a sample of input data which has been modified very slightly in a way that the modification are imperceptible to human but can easily fool deep neural networks."/>
+<meta name="twitter:description" content="As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, we will see what is adversarial examples as well as how to create adversarial examples and to defense them.
+An adversarial example is a sample of input data which has been modified very slightly in a way that the modifications are imperceptible to human but can easily fool DL models."/>
 
     
 
@@ -272,7 +272,7 @@ An adversarial example is a sample of input data which has been modified very sl
             <i class="fa fa-calendar"></i>
             <time datetime="2019-07-24 12:10:51 &#43;0200 &#43;0200" itemprop="datePublished">2019-07-24</time>
             &middot;
-            443
+            536
             words
             &middot;
             3
@@ -312,23 +312,30 @@ An adversarial example is a sample of input data which has been modified very sl
         <div class="article-entry" itemprop="articleBody">
             
 
-<p>As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, let&rsquo;s see some methods of creating and defensing adversarial examples.</p>
+<p>As deep learning (DL) being applied in many safety-critical environments such as self-driving cars, the reliability and rebustness of DL models are highly desired. However, the recent emergence of adversarial examples posed doubts of our confidence in even state of the art DL models. In this post, we will see what is adversarial examples as well as how to create adversarial examples and to defense them.</p>
 
-<p>An adversarial example is a sample of input data which has been modified very slightly in a way that the modification are imperceptible to human but can easily fool deep neural networks. The term was introduced in [1] in the context of neural networks for computer vision, now people can generate adversarial examples in other areas like NLP, speech, reinforcement learning and generative models, etc. Adversarial examples fall into the machine learning security field and have many interesting properties. This post discusses adversarial examples from 4 perspective: attack methods, defense methods, properties of adversarial examples and why adversarial examples exsit.</p>
+<p>An adversarial example is a sample of input data which has been modified very slightly in a way that the modifications are imperceptible to human but can easily fool DL models. The term was introduced in [1] in the context of neural networks for computer vision, now people can generate adversarial examples in other areas like NLP, speech, reinforcement learning and generative models, etc. Adversarial examples fall into the machine learning security field and have many interesting properties. In the following, we will discuss adversarial examples from four perspective: attack methods, defense methods, properties of adversarial examples and why adversarial examples exsit.</p>
 
 <h2 id="how-to-attack">How to attack</h2>
 
-<p>Firstly, let&rsquo;s see some methods to generate adversarial examples. There are a variety of methods, generally, we can regard them two types: one-step methods and iterative methods. As to how to attack the model, there are white-box attack and black-box attack.</p>
+<p>Firstly, let&rsquo;s see some methods to generate adversarial examples. There are a variety of methods, generally, we can put them in two types: one-step methods and iterative methods. Adversarial examples generated by the two types of methods has shown different properties.</p>
 
-<h3 id="one-step-method">One-step method</h3>
+<h4 id="one-step-methods">One-step methods</h4>
 
-<h3 id="iterative-methods">iterative methods</h3>
+<h4 id="iterative-methods">Iterative methods</h4>
 
-<h3 id="white-box-attacks">white-box attacks</h3>
+<p>Compared with one-time attacks, iterative attacks usually
+perform better adversarial examples, but require more
+interactions with victim classifier (more queries) and
+cost more computational time to generate them.</p>
+
+<p>As to how to attack the model, there are white-box attack and black-box attack.</p>
+
+<h4 id="white-box-attacks">White-box attacks</h4>
 
 <p>adversary has full knowledge of the model, including the model architecture, parameters, and the defense strategies used in the model.</p>
 
-<h3 id="black-box-attacks">black-box  attacks</h3>
+<h4 id="black-box-attacks">Black-box  attacks</h4>
 
 <p>leverage the transferability</p>
 
@@ -340,19 +347,21 @@ An adversarial example is a sample of input data which has been modified very sl
 
 <p>The first direction attempts to produce correct predictions on adversarial examples, while not compromising the accuracy on legitimate inputs [27, 7, 9]. The other (more recent) direction instead attempts to detect adversarial examples, without introducing too many false positives.</p>
 
-<h3 id="defensive-distillation">defensive distillation</h3>
+<h4 id="defensive-distillation">defensive distillation</h4>
 
-<h3 id="adversarial-training">adversarial training</h3>
+<h4 id="adversarial-training">adversarial training</h4>
 
 <p>training on adversarial examples as well as regular examples</p>
 
 <p>A major difficulty of adversarial training is that it tends to overfit to the method of adversarial example generation used at training time. For example, models trained to resist FGSM adversarial examples usually fail to resist L-BFGS adversarial examples.</p>
 
-<h3 id="properties-of-adversarial-examples">Properties of adversarial examples</h3>
+<h2 id="properties-of-adversarial-examples">Properties of adversarial examples</h2>
 
 <p>Adversarial examples that fool one model often fool another model, even if the two models are trained on different training examples or have different architectures.</p>
 
-<h3 id="the-reason-adversarial-examples-exist">The reason adversarial examples exist</h3>
+<h2 id="the-reason-adversarial-examples-exist">The reason adversarial examples exist</h2>
+
+<p>The true reason behind adversarial examples has not totally understood yet. Early attempts at explaining this phenomenon focused on nonlinearity and overfitting. [2] argues instead that the primary cause of neural networks’ vulnerability to adversarial perturbation is their linear nature.</p>
 
 <h2 id="reference">Reference</h2>
 
