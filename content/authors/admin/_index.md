@@ -47,10 +47,8 @@ profiles:
   #   url: https://orcid.org/
 
 interests:
-  - Computer Vision
-  - Large Language Models
-  - Bioinformatics
-  - Medical Image Analysis
+  - Large Multimodal Models
+  - Trustworthy AI
 
 education:
   - area: Ph.D. in Computer Science
@@ -92,13 +90,7 @@ work:
     date_start: 2021-08-01
     date_end: 2024-06-01
     summary: |
-      Courses taught:
-      - Fall 2021. CS1982 Matlab Programming
-      - Spring 2022. CS1982 Matlab Programming
-      - Summer 2022. CS1970 Introduction to C++ Programming
-      - Fall 2022. CS1982 Matlab Programming
-      - Spring 2023. CS1982 Matlab Programming
-      - Spring 2024. CS6405 Clustering Algorithms
+      Teaching classes include CS1982 Matlab Programming, CS1970 Introduction to C++ Programming, CS6405 Clustering Algorithms.
   - position: Graduate Research Assistant
     company_name: Missouri University of Science and Technology
     company_url: ''
@@ -202,5 +194,5 @@ awards:
 
 ## About Me
 
-My name is Tao Wu (吴涛), I am currently working as a research scientist at TikTok, previously, I worked as a postdoctoral fellow at [Missouri University of  Science and Technology](https://www.mst.edu/), collaborating with [Dr. Seung-Jong Park](https://sites.mst.edu/sjpark/). I received my bachelor degree in Engineering Mechanics from [Huazhong University of Science and Technology](http://english.hust.edu.cn/), Wuhan, China in 2018 and Ph.D. degree in Computer Science from [Missouri University of  Science and Technology](https://www.mst.edu/), Rolla, Missouri in 2024, under the co-supervision of [Dr. Donald C. Wunsch II](https://scholar.google.com/citations?hl=en&user=fQC7bIoAAAAJ&view_op=list_works) and [Dr. Tie Luo](https://tluocs.github.io/). My research interests include multimodal machine learning and trustworthy AI. More specifically, my focus is on developing methods to enhance the representation, optimization, generalization, and robustness of deep neural networks.
+My name is Tao Wu (吴涛), I am currently working as a research scientist at [TikTok](https://lifeattiktok.com/), previously, I worked as a postdoctoral fellow at [Missouri University of  Science and Technology](https://www.mst.edu/), collaborating with [Dr. Seung-Jong Park](https://sites.mst.edu/sjpark/). I received my bachelor degree in Engineering Mechanics from [Huazhong University of Science and Technology](http://english.hust.edu.cn/), Wuhan, China in 2018 and Ph.D. degree in Computer Science from [Missouri University of  Science and Technology](https://www.mst.edu/), Rolla, Missouri in 2024, under the co-supervision of [Dr. Donald C. Wunsch II](https://scholar.google.com/citations?hl=en&user=fQC7bIoAAAAJ&view_op=list_works) and [Dr. Tie Luo](https://tluocs.github.io/). My research interests include multimodal machine learning and trustworthy AI. More specifically, my focus is on developing methods to enhance the representation, optimization, generalization, and robustness of deep neural networks.
 {style="text-align: justify;"}
