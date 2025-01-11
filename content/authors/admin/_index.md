@@ -1,17 +1,17 @@
 ---
 # Display name
-title: 吳健雄
+title: Tao Wu
 
 # Name pronunciation (optional)
-name_pronunciation: Chien Shiung Wu
+name_pronunciation:
 
 # Full name (for SEO)
-first_name: Shiung Wu
-last_name: Chien
+first_name: Tao
+last_name: Wu
 
 # Status emoji
 status:
-  icon: ☕️
+  icon: #☕️
 
 # Is this the primary user of the site?
 superuser: true
@@ -20,92 +20,93 @@ superuser: true
 highlight_name: true
 
 # Role/position/tagline
-role: Chief Scientist
+role: Postdoctoral Fellow
 
 # Organizations/Affiliations to display in Biography blox
 organizations:
-  - name: OpenAI
-    url: https://openai.com/
+  - name: Missouri University of Science and Technology
+    url: https://www.mst.edu/
 
 # Social network links
 # Need to use another icon? Simply download the SVG icon to your `assets/media/icons/` folder.
 profiles:
-  - icon: at-symbol
-    url: 'mailto:your-email@example.com'
-    label: E-mail Me
-  - icon: brands/x
-    url: https://twitter.com/GetResearchDev
-  - icon: brands/instagram
-    url: https://www.instagram.com/
+  # - icon: at-symbol
+  #   url: wuta@mst.edu
+  #   label: E-mail Me
+  # - icon: brands/x
+  #   url: https://twitter.com/GetResearchDev
+  # - icon: brands/instagram
+  #   url: https://www.instagram.com/
   - icon: brands/github
-    url: https://github.com/gcushen
+    url: https://github.com/mstwutao
   - icon: brands/linkedin
-    url: https://www.linkedin.com/
+    url: https://www.linkedin.com/in/mstwutao/
   - icon: academicons/google-scholar
-    url: https://scholar.google.com/
-  - icon: academicons/orcid
-    url: https://orcid.org/
+    url: https://scholar.google.co.uk/citations?user=KS0Q4oEAAAAJ&hl=en
+  # - icon: academicons/orcid
+  #   url: https://orcid.org/
 
 interests:
-  - Artificial Intelligence
-  - Computational Linguistics
-  - Information Retrieval
+  - Computer Vision
+  - Large Language Models
+  - Bioinformatics
+  - Medical Image Analysis
 
 education:
-  - area: PhD Artificial Intelligence
-    institution: Stanford University
-    date_start: 2016-01-01
-    date_end: 2020-12-31
+  - area: Ph.D. in Computer Science
+    institution: Missouri University of Science and Technology
+    date_start: 2018-08-01
+    date_end: 2024-06-30
     summary: |
-      Thesis on _Why LLMs are awesome_. Supervised by [Prof Joe Smith](https://example.com). Presented papers at 5 IEEE conferences with the contributions being published in 2 Springer journals.
-    button:
-      text: 'Read Thesis'
-      url: 'https://example.com'
-  - area: MEng Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    date_start: 2016-01-01
-    date_end: 2020-12-31
+    #   Thesis on _Why LLMs are awesome_. Supervised by [Prof Joe Smith](https://example.com). Presented papers at 5 IEEE conferences with the contributions being published in 2 Springer journals.
+    # button:
+    #   text: 'Read Thesis'
+    #   url: 'https://example.com'
+  - area: B.S. in Engineering Mechanics
+    institution:  Huazhong University of Science and Technology
+    date_start: 2014-08-01
+    date_end: 2018-06-30
     summary: |
-      GPA: 3.8/4.0
 
-      Courses included:
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - area: BSc Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    date_start: 2016-01-01
-    date_end: 2020-12-31
-    summary: |
-      GPA: 3.4/4.0
-      
-      Courses included:
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
 work:
-  - position: Director of Cloud Infrastructure
-    company_name: GenCoin
+  - position: Postdoctoral Fellow
+    company_name: Missouri University of Science and Technology
     company_url: ''
     company_logo: ''
-    date_start: 2021-01-01
-    date_end: ''
-    summary: |2-
-      Responsibilities include:
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - position: Backend Software Engineer
-    company_name: X
-    company_url: ''
-    company_logo: ''
-    date_start: 2016-01-01
-    date_end: 2020-12-31
+    date_start: 2024-06-01
+    # date_end: present
     summary: |
-      Responsibilities include:
-      - Migrated infrastructure to a new data center
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
-      - lorem ipsum dolor sit amet, consectetur adipiscing elit
+      Working on LLM for genomic data analysis and medical image analysis.
+  - position: Graduate Teaching Assistant
+    company_name: Missouri University of Science and Technology
+    company_url: ''
+    company_logo: ''
+    date_start: 2021-08-01
+    date_end: 2024-06-01
+    summary: |
+      Courses taught:
+      - Fall 2021. CS1982 Matlab Programming
+      - Spring 2022. CS1982 Matlab Programming
+      - Summer 2022. CS1970 Introduction to C++ Programming
+      - Fall 2022. CS1982 Matlab Programming
+      - Spring 2023. CS1982 Matlab Programming
+      - Spring 2024. CS6405 Clustering Algorithms
+  - position: Graduate Research Assistant
+    company_name: Missouri University of Science and Technology
+    company_url: ''
+    company_logo: ''
+    date_start: 2018-08-01
+    date_end: 2021-07-31
+    summary: |
+      Research scope including computer vision, adversarial machine learning and self-supervised learning.
+  - position: Summer Research Internship
+    company_name: Missouri University of Science and Technology
+    company_url: ''
+    company_logo: ''
+    date_start: 2017-07-01
+    date_end: 2017-10-01
+    summary: |
+      Analyze the training instability and mode collapse problems of Generative Adversarial Networks (GANs).
 
 # Skills
 # Add your own SVG icons to `assets/media/icons/`
@@ -154,33 +155,44 @@ languages:
 #   Only `title`, `awarder`, and `date` are required.
 #   Begin multi-line `summary` with YAML's `|` or `|2-` multi-line prefix and indent 2 spaces below.
 awards:
-  - title: Neural Networks and Deep Learning
-    url: https://www.coursera.org/learn/neural-networks-deep-learning
-    date: '2023-11-25'
-    awarder: Coursera
+  - title: 'Foundations of Project Management'
+    certificate_url: https://www.coursera.org/account/accomplishments/certificate/P3C5DK7LFC9J
+    date: '2024-05-21'
+    awarder: coursera
+    icon: coursera  
+  - title: 'Google Cloud Fundamentals: Core Infrastructure'
+    certificate_url: https://www.coursera.org/account/accomplishments/certificate/VT4XXSX5DG29
+    date: '2024-05-21'
+    awarder: coursera
     icon: coursera
-    summary: |
-      I studied the foundational concept of neural networks and deep learning. By the end, I was familiar with the significant technological trends driving the rise of deep learning; build, train, and apply fully connected deep neural networks; implement efficient (vectorized) neural networks; identify key parameters in a neural network’s architecture; and apply deep learning to your own applications.
-  - title: Blockchain Fundamentals
-    url: https://www.edx.org/professional-certificate/uc-berkeleyx-blockchain-fundamentals
-    date: '2023-07-01'
-    awarder: edX
-    icon: edx
-    summary: |
-      Learned:
-      - Synthesize your own blockchain solutions
-      - Gain an in-depth understanding of the specific mechanics of Bitcoin
-      - Understand Bitcoin’s real-life applications and learn how to attack and destroy Bitcoin, Ethereum, smart contracts and Dapps, and alternatives to Bitcoin’s Proof-of-Work consensus algorithm
-  - title: 'Object-Oriented Programming in R'
-    url: https://www.datacamp.com/courses/object-oriented-programming-with-s3-and-r6-in-r
-    certificate_url: https://www.datacamp.com
-    date: '2023-01-21'
-    awarder: datacamp
-    icon: datacamp
-    summary: |
-      Object-oriented programming (OOP) lets you specify relationships between functions and the objects that they can act on, helping you manage complexity in your code. This is an intermediate level course, providing an introduction to OOP, using the S3 and R6 systems. S3 is a great day-to-day R programming tool that simplifies some of the functions that you write. R6 is especially useful for industry-specific analyses, working with web APIs, and building GUIs.
+  - title: 'AI for Medical Diagnosis'
+    certificate_url: https://www.coursera.org/account/accomplishments/certificate/V4ULYM7R4RK2
+    date: '2023-08-21'
+    awarder: coursera
+    icon: coursera
+  - title: 'AWS Cloud Technical Essentials'
+    certificate_url: https://www.coursera.org/account/accomplishments/certificate/DPDC9RH8VRMT
+    date: '2023-07-21'
+    awarder: coursera
+    icon: coursera
+  - title: 'Image and Video Processing'
+    certificate_url: https://www.coursera.org/account/accomplishments/certificate/6WE6SPRZCZTQ
+    date: '2023-07-21'
+    awarder: coursera
+    icon: coursera
+  - title: 'Advanced Computer Vision with TensorFlow'
+    certificate_url: https://www.coursera.org/account/accomplishments/certificate/NJQ7EW6JE9T7
+    date: '2023-06-21'
+    awarder: coursera
+    icon: coursera
+  - title: 'Advanced Learning Algorithms'
+    certificate_url: https://www.coursera.org/account/accomplishments/certificate/DM2LV2RRZR6L
+    date: '2023-06-21'
+    awarder: coursera
+    icon: coursera
 ---
 
 ## About Me
 
-Chien Shiung Wu is a professor of artificial intelligence at the Stanford AI Lab. Her research interests include distributed robotics, mobile computing and programmable matter. She leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
+My name is Tao Wu (吴涛), I am currently a postdoctoral fellow at [Missouri University of  Science and Technology](https://www.mst.edu/), working with [Dr. Seung-Jong Park](https://sites.mst.edu/sjpark/). I received my bachelor degree in Engineering Mechanics from [Huazhong University of Science and Technology](http://english.hust.edu.cn/), Wuhan, China in 2018 and Ph.D. degree in Computer Science from [Missouri University of  Science and Technology](https://www.mst.edu/), Rolla, Missouri in 2024, under the co-supervision of [Dr. Donald C. Wunsch II](https://scholar.google.com/citations?hl=en&user=fQC7bIoAAAAJ&view_op=list_works) and [Dr. Tie Luo](https://tluocs.github.io/). My research interests include computer vision, bioinformatics, medical image analysis and trustworthy AI. More specifically, my focus is on developing methods to enhance the representation, optimization, generalization, and robustness of deep neural networks (DNNs) and aim to apply the capabilities of DNNs to the analysis of genomic and medical data to advance human health.
+{style="text-align: justify;"}
