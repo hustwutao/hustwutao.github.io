@@ -1,7 +1,7 @@
 ---
-title: 🎉 One paper is accepted by ICIP 2023!
+title: 🎉 I will join TikTok as a research scientist!
 #summary: Take full control of your personal brand and privacy by migrating away from the big tech platforms!
-date: 2023-06-21
+date: 2024-11-25
 
 # Featured image
 # Place an image named `featured.jpg/png` in this page's folder and customize its options here.
@@ -18,4 +18,4 @@ date: 2023-06-21
 #   - Markdown
 ---
 
-Our paper [GNP Attack: Transferable Adversarial Examples via Gradient Norm Penalty](https://arxiv.org/pdf/2307.04099) has been accepted by International Conference of Image Processing 2023!
+I will join TikTok as a research scientist!

@@ -14,10 +14,11 @@ sections:
     id: teaching
     content:
       title: Teaching
+      count: 0
       filters:
         folders:
           - teaching
     design:
-      view: article-grid
-      columns: 2
+      view: compact
+      # columns: 2
 ---
