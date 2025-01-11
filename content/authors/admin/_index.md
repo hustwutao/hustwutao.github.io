@@ -69,12 +69,20 @@ education:
     summary: |
 
 work:
+  - position: Research Scientist
+    company_name: TikTok
+    company_url: ''
+    company_logo: ''
+    date_start: 2024-11-25
+    # date_end: present
+    summary: |
+      Working on multimodal machine learning for data trust and safety.
   - position: Postdoctoral Fellow
     company_name: Missouri University of Science and Technology
     company_url: ''
     company_logo: ''
     date_start: 2024-06-01
-    # date_end: present
+    date_end: 2024-11-22
     summary: |
       Working on LLM for genomic data analysis and medical image analysis.
   - position: Graduate Teaching Assistant
@@ -194,5 +202,5 @@ awards:
 
 ## About Me
 
-My name is Tao Wu (吴涛), I am currently a postdoctoral fellow at [Missouri University of  Science and Technology](https://www.mst.edu/), working with [Dr. Seung-Jong Park](https://sites.mst.edu/sjpark/). I received my bachelor degree in Engineering Mechanics from [Huazhong University of Science and Technology](http://english.hust.edu.cn/), Wuhan, China in 2018 and Ph.D. degree in Computer Science from [Missouri University of  Science and Technology](https://www.mst.edu/), Rolla, Missouri in 2024, under the co-supervision of [Dr. Donald C. Wunsch II](https://scholar.google.com/citations?hl=en&user=fQC7bIoAAAAJ&view_op=list_works) and [Dr. Tie Luo](https://tluocs.github.io/). My research interests include computer vision, bioinformatics, medical image analysis and trustworthy AI. More specifically, my focus is on developing methods to enhance the representation, optimization, generalization, and robustness of deep neural networks (DNNs) and aim to apply the capabilities of DNNs to the analysis of genomic and medical data to advance human health.
+My name is Tao Wu (吴涛), I am currently working as a research scientist at TikTok, previously, I worked as a postdoctoral fellow at [Missouri University of  Science and Technology](https://www.mst.edu/), collaborating with [Dr. Seung-Jong Park](https://sites.mst.edu/sjpark/). I received my bachelor degree in Engineering Mechanics from [Huazhong University of Science and Technology](http://english.hust.edu.cn/), Wuhan, China in 2018 and Ph.D. degree in Computer Science from [Missouri University of  Science and Technology](https://www.mst.edu/), Rolla, Missouri in 2024, under the co-supervision of [Dr. Donald C. Wunsch II](https://scholar.google.com/citations?hl=en&user=fQC7bIoAAAAJ&view_op=list_works) and [Dr. Tie Luo](https://tluocs.github.io/). My research interests include multimodal machine learning and trustworthy AI. More specifically, my focus is on developing methods to enhance the representation, optimization, generalization, and robustness of deep neural networks.
 {style="text-align: justify;"}
