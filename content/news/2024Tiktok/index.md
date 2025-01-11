@@ -1,5 +1,5 @@
 ---
-title: 🎉 I will join TikTok as a research scientist!
+title: 🎉 I join TikTok as a research scientist!
 #summary: Take full control of your personal brand and privacy by migrating away from the big tech platforms!
 date: 2024-11-25
 
@@ -18,4 +18,4 @@ date: 2024-11-25
 #   - Markdown
 ---
 
-I will join TikTok as a research scientist!
+I join TikTok as a research scientist!

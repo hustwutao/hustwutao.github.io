@@ -1,7 +1,7 @@
 ---
 title: Variational Autoencoder Explained
 summary: 
-date: 2023-08-01
+date: 2022-08-01
 
 authors:
   - admin
